@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JSM Continuous Improvement Review - SY 2025-26</title>
+<style>
+
+:root{
+  --bg:#F6F4EF;--surface:#FFFFFF;--surface2:#F0EDE6;--border:#E2DECE;
+  --text:#1C1A14;--text2:#6B6659;--text3:#9C9789;
+  --up:#0E6B4E;--up-bg:#E2F4EC;--dn:#A0280E;--dn-bg:#FCEAE7;
+  --warn:#7A4E00;--warn-bg:#FEF3DE;--info:#0C4A8C;--info-bg:#E5EEFA;
+  --r1:#C0392B;--r2:#D96A12;--r3:#D4B800;--r4:#5BA830;--r5:#2078C8;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5}
+.wrap{max-width:1000px;margin:0 auto;padding:1.5rem 1.25rem}
+.school-name{font-family:Georgia,'Times New Roman',serif;font-size:22px;color:var(--text);line-height:1.2;margin-bottom:4px}
+.sub{font-size:12px;color:var(--text2)}
+.pills{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 1.25rem}
+.pill{font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;letter-spacing:.01em}
+.p-gold{background:#FDF0D5;color:#7A4E00;border:1px solid #F0D898}
+.p-navy{background:#E5EEFA;color:#0C4A8C;border:1px solid #BDD0EF}
+.p-green{background:#E2F4EC;color:#0E6B4E;border:1px solid #A8DFC5}
+.nav{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.nb{font-size:11px;font-weight:500;padding:6px 13px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text2);cursor:pointer;transition:all .15s}
+.nb.on{background:var(--text);color:#fff;border-color:var(--text)}
+.nb:hover:not(.on){background:var(--surface2);color:var(--text)}
+.sec{display:none}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1rem}
+.stats3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1rem}
+.stats2{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:1rem}
+.stat{background:var(--surface2);border-radius:10px;padding:13px 15px;position:relative;overflow:hidden}
+.stat-label{font-size:11px;color:var(--text2);font-weight:500;margin-bottom:5px;line-height:1.3}
+.stat-value{font-size:24px;font-weight:600;color:var(--text);line-height:1}
+.stat-delta{font-size:11px;margin-top:4px;font-weight:500}
+.su{color:var(--up)}.sd{color:var(--dn)}.sw{color:var(--warn)}.sn{color:var(--text3)}
+.stat-bar{position:absolute;bottom:0;left:0;right:0;height:3px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.1rem 1.35rem;margin-bottom:1rem}
+.ct{font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px}
+.cs{font-size:11px;color:var(--text2);margin-bottom:.875rem}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+.leg{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:.75rem;font-size:11px;color:var(--text2)}
+.leg span{display:flex;align-items:center;gap:5px;font-weight:500}
+.ld{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+/* signals */
+.sig{display:flex;align-items:flex-start;gap:9px;padding:.65rem .9rem;border-radius:9px;margin-top:.5rem;font-size:12px;line-height:1.55}
+.sig-ic{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px}
+.sg{background:var(--up-bg);color:var(--up)}.sg .sig-ic{background:var(--up);color:#fff}
+.sr{background:var(--dn-bg);color:var(--dn)}.sr .sig-ic{background:var(--dn);color:#fff}
+.sw2{background:var(--warn-bg);color:var(--warn)}.sw2 .sig-ic{background:var(--warn);color:#fff}
+.si{background:var(--info-bg);color:var(--info)}.si .sig-ic{background:var(--info);color:#fff}
+/* chips */
+.chip{display:inline-flex;align-items:center;font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px}
+.cu{background:#E2F4EC;color:#085041}.cd{background:#FCEAE7;color:#791F1F}.cw{background:#FEF3DE;color:#7A4E00}.cn{background:var(--surface2);color:var(--text2)}
+/* bar rows (literacy) */
+.br{margin-bottom:.8rem}
+.br-hdr{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px}
+.br-name{font-size:12px;font-weight:600;color:var(--text)}
+.br-n{font-size:11px;color:var(--text3)}
+.br-pair{display:flex;flex-direction:column;gap:3px}
+.br-row{display:flex;align-items:center;gap:6px}
+.br-lbl{font-size:10px;color:var(--text2);width:38px;flex-shrink:0;text-align:right}
+.btrack{display:flex;height:20px;border-radius:5px;overflow:hidden;flex:1}
+.bs{display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:#fff;min-width:0}
+.bs span{padding:0 3px;white-space:nowrap;overflow:hidden}
+.bdiv{height:1px;background:var(--border);margin:.55rem 0}
+/* pct rows (NWEA) */
+.pr{margin-bottom:.7rem}
+.pr-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.pr-grade{font-size:12px;font-weight:600;color:var(--text)}
+.pr-med{font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px}
+.pbar{display:flex;height:22px;border-radius:6px;overflow:hidden}
+.ps{display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:#fff;min-width:0}
+.ps span{padding:0 3px;white-space:nowrap}
+/* tables */
+.dt{width:100%;border-collapse:collapse;font-size:12px}
+.dt th{font-size:11px;font-weight:600;color:var(--text2);padding:7px 10px;border-bottom:1px solid var(--border);text-align:left}
+.dt td{padding:9px 10px;border-bottom:0.5px solid var(--border);vertical-align:middle}
+.dt tr:last-child td{border-bottom:none}
+.dt tr:hover td{background:var(--surface2)}
+/* portrait */
+.prow{margin-bottom:.7rem;border:1px solid var(--border);border-radius:12px;padding:.8rem 1.1rem}
+.phdr{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.pic{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.pname{font-size:13px;font-weight:600;color:var(--text)}
+.pbars{display:flex;flex-direction:column;gap:6px;margin-bottom:7px}
+.brow{display:flex;align-items:center;gap:9px}
+.bl{font-size:11px;color:var(--text2);width:74px;flex-shrink:0;text-align:right}
+.btrk{flex:1;height:9px;background:var(--surface2);border-radius:5px;overflow:hidden}
+.bfill{height:100%;border-radius:5px}
+.bv{font-size:11px;font-weight:600;width:50px;flex-shrink:0}
+.tags{display:flex;gap:5px;flex-wrap:wrap}
+.tag{font-size:11px;padding:2px 8px;border-radius:20px}
+.tg{background:#E2F4EC;color:#085041}.tb{background:#E5EEFA;color:#0C4A8C}.ta{background:#FEF3DE;color:#7A4E00}
+/* SIP */
+.sipg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1rem}
+.sic{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem}
+.sin{font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px}
+.sis{font-size:11px;color:var(--text2);margin-bottom:.6rem}
+.sil{list-style:none}
+.sil li{font-size:11px;color:var(--text2);padding:3px 0;border-top:0.5px solid var(--border);display:flex;gap:6px;line-height:1.4}
+.sil li::before{content:"";width:4px;height:4px;border-radius:50%;background:var(--text3);margin-top:5px;flex-shrink:0}
+/* action cards */
+.apg{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1rem}
+.apc{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.9rem}
+.apih{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.apic{width:26px;height:26px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.apt{font-size:13px;font-weight:600;color:var(--text)}
+.apd{font-size:11px;color:var(--text3);margin-bottom:.6rem}
+/* superintendent */
+.sq{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:.75rem}
+.sq-head{display:flex;align-items:stretch}
+.sq-num{width:44px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600}
+.sq-title-row{flex:1;padding:12px 14px 12px 0;display:flex;align-items:center;justify-content:space-between;gap:8px;border-bottom:0.5px solid var(--border);cursor:pointer;user-select:none}
+.sq-title{font-size:13px;font-weight:600;color:var(--text);line-height:1.3}
+.sq-status{font-size:10px;font-weight:600;padding:3px 8px;border-radius:20px;white-space:nowrap;flex-shrink:0}
+.sq-chev{font-size:11px;color:var(--text3);flex-shrink:0;transition:transform .2s}
+.sq-body{padding:0 14px 0 44px;max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s}
+.sq-body.open{max-height:600px;padding:12px 14px 14px 44px}
+.sq-items{display:flex;flex-direction:column;gap:7px}
+.sq-item{display:flex;gap:9px;font-size:12px;color:var(--text2);line-height:1.55}
+.sq-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.sq-item strong{color:var(--text);font-weight:600}
+.chip-row{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px;padding-top:9px;border-top:0.5px solid var(--border)}
+/* progress bars */
+.progr{display:flex;align-items:center;gap:10px;margin-bottom:.5rem}
+.prog-lbl{font-size:12px;color:var(--text2);width:135px;flex-shrink:0}
+.prog-trk{flex:1;height:9px;background:var(--surface2);border-radius:5px;overflow:hidden}
+.prog-fill{height:100%;border-radius:5px}
+.prog-val{font-size:12px;font-weight:600;color:var(--text);width:44px;text-align:right;flex-shrink:0}
+/* ring */
+.ring-group{display:flex;justify-content:center;gap:3rem;padding:.5rem 0 1.1rem}
+.ring-wrap{display:flex;flex-direction:column;align-items:center;gap:7px}
+.ring-lbl{font-size:12px;font-weight:500;color:var(--text2)}
+.ring-badge{font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px}
+/* class detail table */
+.ct2{width:100%;border-collapse:collapse;font-size:11px}
+.ct2 th{font-size:10px;font-weight:600;color:var(--text2);padding:6px 8px;border-bottom:0.5px solid var(--border);text-align:center;white-space:nowrap}
+.ct2 th:first-child{text-align:left}
+.ct2 td{padding:7px 8px;border-bottom:0.5px solid var(--border);text-align:center;vertical-align:middle}
+.ct2 td:first-child{text-align:left;font-weight:600;color:var(--text)}
+.ct2 tr:last-child td{border-bottom:none}
+.ct2 tr:hover td{background:var(--surface2)}
+.grade-sec td{background:var(--surface2);color:var(--text2);font-size:10px;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+/* summary bar */
+.sbar{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1.25rem}
+.sb{background:var(--surface2);border-radius:10px;padding:12px 14px}
+.sb-lbl{font-size:11px;color:var(--text2);margin-bottom:5px}
+.sb-val{font-size:20px;font-weight:600;color:var(--text);line-height:1}
+.sb-sub{font-size:11px;margin-top:4px}
+.progress-track{height:4px;background:var(--border);border-radius:3px;margin-top:7px;overflow:hidden}
+.progress-fill{height:100%;border-radius:3px}
+/* absence lift */
+.liftbar{margin-bottom:.75rem}
+.liftbar-hdr{display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px}
+@media(max-width:640px){.stats,.stats3{grid-template-columns:repeat(2,1fr)}.two-col,.sipg,.apg{grid-template-columns:1fr}}
+
+</style>
+<script>
+function showTab(name, btn) {
+  var secs = document.getElementsByClassName("sec");
+  for (var i = 0; i < secs.length; i++) { secs[i].style.display = "none"; }
+  var btns = document.getElementsByClassName("nb");
+  for (var i = 0; i < btns.length; i++) { btns[i].className = btns[i].className.replace(" on", ""); }
+  var t = document.getElementById("s-" + name);
+  if (t) t.style.display = "block";
+  if (btn) btn.className += " on";
+}
+</script>
+</head>
+<body onload="showTab('si', document.querySelector('.nb'))">
+<div class="wrap">
+
+<div class="school-name">John S. Martinez Sea &amp; Sky STEM Magnet</div>
+<div class="sub">New Haven Public Schools &nbsp;&middot;&nbsp; Continuous Improvement Review &nbsp;&middot;&nbsp; March 27, 2026</div>
+<div class="pills">
+  <span class="pill p-gold">&#11088; 2026 Magnet School of Excellence</span>
+  <span class="pill p-navy">Portrait of a Graduate</span>
+  <span class="pill p-green">Superintendent Review Ready</span>
+</div>
+
+<div class="nav">
+  <button class="nb on" onclick="showTab('si',this)">First review feedback</button>
+  <button class="nb" onclick="showTab('ov',this)">School at a glance</button>
+  <button class="nb" onclick="showTab('ela',this)">Reading &amp; literacy</button>
+  <button class="nb" onclick="showTab('math',this)">Math</button>
+  <button class="nb" onclick="showTab('att',this)">Attendance</button>
+  <button class="nb" onclick="showTab('clim',this)">Climate &amp; culture</button>
+  <button class="nb" onclick="showTab('pog',this)">Portrait of a graduate</button>
+  <button class="nb" onclick="showTab('sip',this)">Improvement plan</button>
+  <button class="nb" onclick="showTab('ap',this)">Apr–Jun plan</button>
+  <button class="nb" onclick="showTab('mc',this)">Challenges &amp; opportunities</button>
+  <button class="nb" onclick="showTab('sup',this)">Supports</button>
+</div>
+
+<div id="s-si" class="sec vis">
+
+<!-- Header context -->
+<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:1.25rem;padding:.875rem 1.1rem;background:var(--surface);border:1px solid var(--border);border-radius:14px">
+<div>
+<div style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:3px">First Superintendent Review — September 10, 2025</div>
+<div style="font-size:12px;color:var(--text2)">8:40–9:25 a.m. &nbsp;·&nbsp; Participants: Dr. Negron, K. Redd-Hannans, G. Joseph Lumpkin, J. Swingler, J. Novelli, M. Joyner, T. Jackson &amp; E. Johnson, E. Robles Rivas, V. Camacho, L. Menacho, T. Cass, E. Foreman</div>
+</div>
+<div style="flex-shrink:0;display:flex;flex-direction:column;gap:5px;align-items:flex-end">
+<span class="chip cu">Progress noted</span>
+<span class="chip cw">Actions assigned</span>
+<span class="chip cn">Supports requested</span>
+</div>
+</div>
+<!-- Kudos / strengths acknowledged -->
+<div class="card">
+<div class="ct">What the team celebrated</div>
+<div class="cs">Strengths and bright spots acknowledged during the September review</div>
+<div style="display:flex;flex-direction:column;gap:0">
+<div style="display:flex;gap:10px;padding:10px 0;border-bottom:0.5px solid var(--border)">
+<span style="width:8px;height:8px;border-radius:50%;background:#1D9E75;flex-shrink:0;margin-top:5px"></span>
+<span style="font-size:12px;color:var(--text2);line-height:1.6"><strong style="color:var(--text)">Student goal-setting:</strong> Kudos given on student goal conferences — the idea that students should know their reading/math levels and have a personal roadmap to success was explicitly praised.</span>
+</div>
+<div style="display:flex;gap:10px;padding:10px 0;border-bottom:0.5px solid var(--border)">
+<span style="width:8px;height:8px;border-radius:50%;background:#1D9E75;flex-shrink:0;margin-top:5px"></span>
+<span style="font-size:12px;color:var(--text2);line-height:1.6"><strong style="color:var(--text)">Academic growth:</strong> A 9% jump in math and ELA and a 28% jump in science were highlighted as strong progress.</span>
+</div>
+<div style="display:flex;gap:10px;padding:10px 0;border-bottom:0.5px solid var(--border)">
+<span style="width:8px;height:8px;border-radius:50%;background:#1D9E75;flex-shrink:0;margin-top:5px"></span>
+<span style="font-size:12px;color:var(--text2);line-height:1.6"><strong style="color:var(--text)">DataWise &amp; professional learning:</strong> The approach to using DataWise school-wide and intentionality around coaching cycles and learning walks was recognized.</span>
+</div>
+<div style="display:flex;gap:10px;padding:10px 0;border-bottom:0.5px solid var(--border)">
+<span style="width:8px;height:8px;border-radius:50%;background:#1D9E75;flex-shrink:0;margin-top:5px"></span>
+<span style="font-size:12px;color:var(--text2);line-height:1.6"><strong style="color:var(--text)">Community engagement structures:</strong> Student Council's role in surveying students and bringing results to the SPMT was highlighted. Alumni and career day programming appreciated.</span>
+</div>
+<div style="display:flex;gap:10px;padding:10px 0">
+<span style="width:8px;height:8px;border-radius:50%;background:#1D9E75;flex-shrink:0;margin-top:5px"></span>
+<span style="font-size:12px;color:var(--text2);line-height:1.6"><strong style="color:var(--text)">Veteran teacher culture:</strong> The strong group of veteran teachers acting as mentors for newer staff was noted as a school asset.</span>
+</div>
+</div>
+</div>
+<!-- Critical questions and pushes -->
+<div class="card">
+<div class="ct">Questions raised &amp; areas the team pushed on</div>
+<div class="cs">What the supportive colleagues and critical friends raised during the session</div>
+<div style="display:flex;flex-direction:column;gap:0">
+<div style="display:flex;gap:10px;padding:10px 0;border-bottom:0.5px solid var(--border)">
+<span style="width:8px;height:8px;border-radius:50%;background:#7A4E00;flex-shrink:0;margin-top:5px"></span>
+<span style="font-size:12px;color:var(--text2);line-height:1.6"><strong style="color:var(--text)">Tracking community events:</strong> "Do you take surveys from school events (fun days) to see if they help? How do you track?" — The answer was that Student Council surveys students and brings results to the SPMT.</span>
+</div>
+<div style="display:flex;gap:10px;padding:10px 0;border-bottom:0.5px solid var(--border)">
+<span style="width:8px;height:8px;border-radius:50%;background:#7A4E00;flex-shrink:0;margin-top:5px"></span>
+<span style="font-size:12px;color:var(--text2);line-height:1.6"><strong style="color:var(--text)">Adult actions behind academic gains:</strong> "Has the team unpacked the adult actions that helped with the increase?" — A direct ask to connect adult practice to student outcomes.</span>
+</div>
+<div style="display:flex;gap:10px;padding:10px 0;border-bottom:0.5px solid var(--border)">
+<span style="width:8px;height:8px;border-radius:50%;background:#7A4E00;flex-shrink:0;margin-top:5px"></span>
+<span style="font-size:12px;color:var(--text2);line-height:1.6"><strong style="color:var(--text)">Family engagement &amp; immigration climate:</strong> "What does family engagement look like, specifically with the current social climate around immigration?" — Team was asked to think collectively about how to reach families with current fears, and how to leverage Apptegy for that.</span>
+</div>
+<div style="display:flex;gap:10px;padding:10px 0;border-bottom:0.5px solid var(--border)">
+<span style="width:8px;height:8px;border-radius:50%;background:#7A4E00;flex-shrink:0;margin-top:5px"></span>
+<span style="font-size:12px;color:var(--text2);line-height:1.6"><strong style="color:var(--text)">Reluctant families:</strong> "What plan do you have to get reluctant parents/families into the school?" — Response: Frontload with academic activities (literacy/math coach in-service at home) before fun family events, rather than fun first.</span>
+</div>
+<div style="display:flex;gap:10px;padding:10px 0;border-bottom:0.5px solid var(--border)">
+<span style="width:8px;height:8px;border-radius:50%;background:#7A4E00;flex-shrink:0;margin-top:5px"></span>
+<span style="font-size:12px;color:var(--text2);line-height:1.6"><strong style="color:var(--text)">Barriers to attendance:</strong> "What barriers remain for children who don't want to come to school?" — Identified as school culture &amp; climate. Noted that CA was ~10% pre-pandemic and rose to 27% after.</span>
+</div>
+<div style="display:flex;gap:10px;padding:10px 0">
+<span style="width:8px;height:8px;border-radius:50%;background:#7A4E00;flex-shrink:0;margin-top:5px"></span>
+<span style="font-size:12px;color:var(--text2);line-height:1.6"><strong style="color:var(--text)">Accountability vs empathy in attendance:</strong> "How do you balance accountability vs empathy?" — Response: Wrap-around services, making school inviting, reopening the pool as an incentive, individual goal-setting with students.</span>
+</div>
+</div>
+</div>
+<!-- Challenges surfaced -->
+<div class="card">
+<div class="ct">Challenges surfaced in the session</div>
+<div class="cs">Operational and contextual issues acknowledged by the team</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<div style="display:flex;gap:9px;padding:9px 12px;background:var(--surface2);border-radius:8px;font-size:12px;color:var(--text2);line-height:1.5"><span style="flex-shrink:0;margin-top:2px">⚠</span><span><strong style="color:var(--text)">Right-sizing</strong> was a challenge during the year</span></div>
+<div style="display:flex;gap:9px;padding:9px 12px;background:var(--surface2);border-radius:8px;font-size:12px;color:var(--text2);line-height:1.5"><span style="flex-shrink:0;margin-top:2px">⚠</span><span><strong style="color:var(--text)">FMLA issues</strong> ongoing — impacting staffing</span></div>
+<div style="display:flex;gap:9px;padding:9px 12px;background:var(--surface2);border-radius:8px;font-size:12px;color:var(--text2);line-height:1.5"><span style="flex-shrink:0;margin-top:2px">⚠</span><span><strong style="color:var(--text)">Building substitutes</strong> not consistent — impacts coverage</span></div>
+<div style="display:flex;gap:9px;padding:9px 12px;background:var(--surface2);border-radius:8px;font-size:12px;color:var(--text2);line-height:1.5"><span style="flex-shrink:0;margin-top:2px">⚠</span><span><strong style="color:var(--text)">Enrollment growth without proportional resources:</strong> Students are being placed at JSM with no systemic effort to identify support needs in advance. Many arriving students have IEPs, expanding an already strained caseload (72 students with disabilities, 14.4% of enrollment) with no corresponding increase in staffing or co-teaching capacity</span></div>
+<div style="display:flex;gap:9px;padding:9px 12px;background:var(--surface2);border-radius:8px;font-size:12px;color:var(--text2);line-height:1.5"><span style="flex-shrink:0;margin-top:2px">⚠</span><span><strong style="color:var(--text)">Budget pressure — projected deficit:</strong> FY 25–26 expenditures: $4,120,302. Proposed 26–27 budget: $4,295,123 (+$174,821). Personnel costs are rising while Title I tutoring and intervention staffing remain constrained relative to student need</span></div>
+<div style="display:flex;gap:9px;padding:9px 12px;background:var(--surface2);border-radius:8px;font-size:12px;color:var(--text2);line-height:1.5"><span style="flex-shrink:0;margin-top:2px">⚠</span><span><strong style="color:var(--text)">ML population</strong> — need to be more strategic, additional targeted support requested</span></div>
+<div style="display:flex;gap:9px;padding:9px 12px;background:var(--surface2);border-radius:8px;font-size:12px;color:var(--text2);line-height:1.5"><span style="flex-shrink:0;margin-top:2px">⚠</span><span><strong style="color:var(--text)">Community reluctance</strong> around afterschool and evening events — social climate around immigration</span></div>
+</div>
+</div>
+<!-- Next steps assigned -->
+<div class="card">
+<div class="ct">Next steps assigned</div>
+<div class="cs">Specific leadership moves the superintendent directed — these became the foundation for this review</div>
+<div style="display:flex;flex-direction:column;gap:0">
+<div style="display:flex;gap:10px;padding:10px 0;border-bottom:0.5px solid var(--border)">
+<span style="width:20px;height:20px;border-radius:50%;background:#0C4A8C;color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0">1</span>
+<span style="font-size:12px;color:var(--text2);line-height:1.6"><strong style="color:var(--text)">Student roadmap to success:</strong> Each student should know their reading and math level and have a goal for improvement. Parents should also know this information and be engaged in the plan for achievement. <span style="background:#E2F4EC;color:#085041;font-size:10px;font-weight:600;padding:1px 7px;border-radius:20px;margin-left:4px">Done ✓</span></span>
+</div>
+<div style="display:flex;gap:10px;padding:10px 0;border-bottom:0.5px solid var(--border)">
+<span style="width:20px;height:20px;border-radius:50%;background:#0C4A8C;color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0">2</span>
+<span style="font-size:12px;color:var(--text2);line-height:1.6"><strong style="color:var(--text)">Unpack adult actions behind academic gains:</strong> Connect teacher practice explicitly to the 9% ELA/math and 28% science growth. <span style="background:#FEF3DE;color:#7A4E00;font-size:10px;font-weight:600;padding:1px 7px;border-radius:20px;margin-left:4px">In progress</span></span>
+</div>
+<div style="display:flex;gap:10px;padding:10px 0;border-bottom:0.5px solid var(--border)">
+<span style="width:20px;height:20px;border-radius:50%;background:#0C4A8C;color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0">3</span>
+<span style="font-size:12px;color:var(--text2);line-height:1.6"><strong style="color:var(--text)">Family engagement plan for current social climate:</strong> Develop an approach to reaching families who are reluctant due to immigration concerns. Leverage Apptegy for multi-channel outreach. Frontload academic content before social events. <span style="background:#FEF3DE;color:#7A4E00;font-size:10px;font-weight:600;padding:1px 7px;border-radius:20px;margin-left:4px">In progress</span></span>
+</div>
+<div style="display:flex;gap:10px;padding:10px 0">
+<span style="width:20px;height:20px;border-radius:50%;background:#0C4A8C;color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0">4</span>
+<span style="font-size:12px;color:var(--text2);line-height:1.6"><strong style="color:var(--text)">Onboarding new teachers:</strong> Principal Menacho's identified stretch goal for the year — building consistent practice among newer staff. <span style="background:#E2F4EC;color:#085041;font-size:10px;font-weight:600;padding:1px 7px;border-radius:20px;margin-left:4px">Ongoing</span></span>
+</div>
+</div>
+</div>
+<!-- Supports requested at that meeting -->
+<div class="card">
+<div class="ct">Supports requested from central office (September)</div>
+<div class="cs">What the school asked for — tracking whether these have been addressed by March</div>
+<div style="display:flex;flex-direction:column;gap:0">
+<div style="display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:0.5px solid var(--border)">
+<div style="display:flex;gap:9px;align-items:flex-start"><span style="width:8px;height:8px;border-radius:50%;background:#0C4A8C;flex-shrink:0;margin-top:4px"></span><span style="font-size:12px;color:var(--text2)">Additional feedback from district supervisors</span></div>
+<span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;background:#FEF3DE;color:#7A4E00;white-space:nowrap;flex-shrink:0;margin-left:10px">Still needed</span>
+</div>
+<div style="display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:0.5px solid var(--border)">
+<div style="display:flex;gap:9px;align-items:flex-start"><span style="width:8px;height:8px;border-radius:50%;background:#0C4A8C;flex-shrink:0;margin-top:4px"></span><span style="font-size:12px;color:var(--text2)">More time to collaborate with colleagues from different schools</span></div>
+<span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;background:#FEF3DE;color:#7A4E00;white-space:nowrap;flex-shrink:0;margin-left:10px">Still needed</span>
+</div>
+<div style="display:flex;align-items:center;justify-content:space-between;padding:9px 0">
+<div style="display:flex;gap:9px;align-items:flex-start"><span style="width:8px;height:8px;border-radius:50%;background:#0C4A8C;flex-shrink:0;margin-top:4px"></span><span style="font-size:12px;color:var(--text2)">Further district-level guidance with Apptegy (family communication platform)</span></div>
+<span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;background:#FEF3DE;color:#7A4E00;white-space:nowrap;flex-shrink:0;margin-left:10px">Still needed</span>
+</div>
+</div>
+</div>
+<!-- Progress since September -->
+<div class="card">
+<div class="ct">Progress made since September — ready to report at the March review</div>
+<div class="cs">How JSM responded to the first review's direction over the following six months</div>
+<div style="display:flex;flex-direction:column;gap:0">
+<div style="display:flex;gap:10px;padding:10px 0;border-bottom:0.5px solid var(--border)">
+<span style="width:8px;height:8px;border-radius:50%;background:#1D9E75;flex-shrink:0;margin-top:5px"></span>
+<span style="font-size:12px;color:var(--text2);line-height:1.6">Student data cards distributed after Fall and Winter benchmarks — every student can articulate their RIT score and growth goal.</span>
+</div>
+<div style="display:flex;gap:10px;padding:10px 0;border-bottom:0.5px solid var(--border)">
+<span style="width:8px;height:8px;border-radius:50%;background:#1D9E75;flex-shrink:0;margin-top:5px"></span>
+<span style="font-size:12px;color:var(--text2);line-height:1.6">Bilingual math newsletters sent home after every unit — English and Spanish — directly connecting to the "parents should know the plan" directive.</span>
+</div>
+<div style="display:flex;gap:10px;padding:10px 0;border-bottom:0.5px solid var(--border)">
+<span style="width:8px;height:8px;border-radius:50%;background:#1D9E75;flex-shrink:0;margin-top:5px"></span>
+<span style="font-size:12px;color:var(--text2);line-height:1.6">DataWise expanded school-wide (was Grade 8 pilot only in 24–25). Literacy named as schoolwide focus; grade-band problems of practice active in all grades.</span>
+</div>
+<div style="display:flex;gap:10px;padding:10px 0;border-bottom:0.5px solid var(--border)">
+<span style="width:8px;height:8px;border-radius:50%;background:#1D9E75;flex-shrink:0;margin-top:5px"></span>
+<span style="font-size:12px;color:var(--text2);line-height:1.6">iReady Winter: 72% of students making typical annual math growth — 3rd in the district. Math growth from Sep to Jan: students 3+ grades behind dropped from 34% to 20%.</span>
+</div>
+<div style="display:flex;gap:10px;padding:10px 0;border-bottom:0.5px solid var(--border)">
+<span style="width:8px;height:8px;border-radius:50%;background:#1D9E75;flex-shrink:0;margin-top:5px"></span>
+<span style="font-size:12px;color:var(--text2);line-height:1.6">Spanish literacy (Lectura K–3): well-below readers dropped from 52% to 35% school-wide. Kindergarten alone went from 65% to 25% well-below — directly in response to ML support needs.</span>
+</div>
+<div style="display:flex;gap:10px;padding:10px 0;border-bottom:0.5px solid var(--border)">
+<span style="width:8px;height:8px;border-radius:50%;background:#1D9E75;flex-shrink:0;margin-top:5px"></span>
+<span style="font-size:12px;color:var(--text2);line-height:1.6">Community partners grew from 9 (Fall 2025) to 14+ (March 2026). Breakfast with Bigs, VT Leadership Trip (37 students), Career Day, alumni program all active.</span>
+</div>
+<div style="display:flex;gap:10px;padding:10px 0">
+<span style="width:8px;height:8px;border-radius:50%;background:#7A4E00;flex-shrink:0;margin-top:5px"></span>
+<span style="font-size:12px;color:var(--text2);line-height:1.6">Family engagement gap remains — Apptegy transition caused friction, family climate survey at 9% response. Actively working multi-channel outreach strategy for spring.</span>
+</div>
+</div>
+</div>
+
+</div>
+
+<div id="s-ov" class="sec">
+
+<div class="stats">
+<div class="stat"><div class="stat-label">Enrollment (Mar)</div><div class="stat-value">493</div><div class="stat-delta su">↑ +10 from October</div><div class="stat-bar" style="background:var(--up)"></div></div>
+<div class="stat"><div class="stat-label">ELA academic growth</div><div class="stat-value">+12%</div><div class="stat-delta su">↑ Year over year</div><div class="stat-bar" style="background:var(--up)"></div></div>
+<div class="stat"><div class="stat-label">Math growth (iReady)</div><div class="stat-value">72%</div><div class="stat-delta su">↑ 3rd in district</div><div class="stat-bar" style="background:var(--up)"></div></div>
+<div class="stat"><div class="stat-label">Chronic absenteeism</div><div class="stat-value">23.3%</div><div class="stat-delta sw">⚠ Goal: 20.9% EOY</div><div class="stat-bar" style="background:var(--warn)"></div></div>
+</div>
+<div class="stats">
+<div class="stat"><div class="stat-label">Community partners</div><div class="stat-value">14+</div><div class="stat-delta su">↑ Was 2 in 2023</div><div class="stat-bar" style="background:var(--up)"></div></div>
+<div class="stat"><div class="stat-label">Spanish literacy (K–3 well-below)</div><div class="stat-value">–17pts</div><div class="stat-delta su">↑ 52% → 35% well-below</div><div class="stat-bar" style="background:var(--up)"></div></div>
+<div class="stat"><div class="stat-label">Want to come to school daily</div><div class="stat-value">47%</div><div class="stat-delta su">↑ Was 34% last year</div><div class="stat-bar" style="background:var(--up)"></div></div>
+<div class="stat"><div class="stat-label">Suspensions this year</div><div class="stat-value">0</div><div class="stat-delta su">↓ Was 1 last year</div><div class="stat-bar" style="background:var(--up)"></div></div>
+</div>
+<div class="card">
+<div class="ct">Academic performance index — 23–24 vs 24–25</div>
+<div class="cs">NGSI scores and growth percentages. Higher is better across all measures.</div>
+<div class="leg"><span><span class="ld" style="background:#BDD0EF"></span>2023–24</span><span><span class="ld" style="background:#1D9E75"></span>2024–25</span></div>
+<div style="width:100%"><svg viewBox="0 0 560 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:220px"><line x1="42" y1="16.0" x2="548" y2="16.0" stroke="#E2DECE" stroke-width="0.5"/><text x="38" y="20.0" text-anchor="end" font-size="9" fill="#9C9789">70</text><line x1="42" y1="54.0" x2="548" y2="54.0" stroke="#E2DECE" stroke-width="0.5"/><text x="38" y="58.0" text-anchor="end" font-size="9" fill="#9C9789">52</text><line x1="42" y1="92.0" x2="548" y2="92.0" stroke="#E2DECE" stroke-width="0.5"/><text x="38" y="96.0" text-anchor="end" font-size="9" fill="#9C9789">35</text><line x1="42" y1="130.0" x2="548" y2="130.0" stroke="#E2DECE" stroke-width="0.5"/><text x="38" y="134.0" text-anchor="end" font-size="9" fill="#9C9789">18</text><line x1="42" y1="168.0" x2="548" y2="168.0" stroke="#E2DECE" stroke-width="0.5"/><text x="38" y="172.0" text-anchor="end" font-size="9" fill="#9C9789">0</text><rect x="49.6" y="56.2" width="38.7" height="111.8" fill="#BDD0EF" rx="3"/><text x="68.9" y="116.1" text-anchor="middle" font-size="9" fill="white" font-weight="600">52</text><rect x="92.6" y="55.7" width="38.7" height="112.3" fill="#1D9E75" rx="3"/><text x="112.0" y="115.9" text-anchor="middle" font-size="9" fill="white" font-weight="600">52</text><text x="92.6" y="182" text-anchor="middle" font-size="9" fill="#6B6659">ELA perf</text><rect x="150.8" y="58.6" width="38.7" height="109.4" fill="#BDD0EF" rx="3"/><text x="170.1" y="117.3" text-anchor="middle" font-size="9" fill="white" font-weight="600">50</text><rect x="193.8" y="32.5" width="38.7" height="135.5" fill="#1D9E75" rx="3"/><text x="213.2" y="104.3" text-anchor="middle" font-size="9" fill="white" font-weight="600">62</text><text x="193.8" y="182" text-anchor="middle" font-size="9" fill="#6B6659">ELA growth</text><rect x="252.0" y="63.6" width="38.7" height="104.4" fill="#BDD0EF" rx="3"/><text x="271.3" y="119.8" text-anchor="middle" font-size="9" fill="white" font-weight="600">48</text><rect x="295.0" y="58.6" width="38.7" height="109.4" fill="#1D9E75" rx="3"/><text x="314.4" y="117.3" text-anchor="middle" font-size="9" fill="white" font-weight="600">50</text><text x="295.0" y="182" text-anchor="middle" font-size="9" fill="#6B6659">Math perf</text><rect x="353.2" y="57.3" width="38.7" height="110.7" fill="#BDD0EF" rx="3"/><text x="372.5" y="116.6" text-anchor="middle" font-size="9" fill="white" font-weight="600">51</text><rect x="396.2" y="34.7" width="38.7" height="133.3" fill="#1D9E75" rx="3"/><text x="415.6" y="105.3" text-anchor="middle" font-size="9" fill="white" font-weight="600">61</text><text x="396.2" y="182" text-anchor="middle" font-size="9" fill="#6B6659">Math growth</text><rect x="454.4" y="52.9" width="38.7" height="115.1" fill="#BDD0EF" rx="3"/><text x="473.7" y="114.5" text-anchor="middle" font-size="9" fill="white" font-weight="600">53</text><rect x="497.4" y="58.6" width="38.7" height="109.4" fill="#1D9E75" rx="3"/><text x="516.8" y="117.3" text-anchor="middle" font-size="9" fill="white" font-weight="600">50</text><text x="497.4" y="182" text-anchor="middle" font-size="9" fill="#6B6659">Science</text><rect x="42" y="198" width="10" height="10" fill="#BDD0EF" rx="2"/><text x="55" y="206" font-size="9" fill="#6B6659">2023–24</text><rect x="102.5" y="198" width="10" height="10" fill="#1D9E75" rx="2"/><text x="115.5" y="206" font-size="9" fill="#6B6659">2024–25</text></svg></div>
+</div>
+<div class="two-col">
+<div class="card"><div class="ct">Spanish-speaking students — literacy gains</div><div class="cs">LAS Links proficiency</div><div style="width:100%"><svg viewBox="0 0 560 170" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:170px"><line x1="42" y1="16.0" x2="548" y2="16.0" stroke="#E2DECE" stroke-width="0.5"/><text x="38" y="20.0" text-anchor="end" font-size="9" fill="#9C9789">80%</text><line x1="42" y1="41.5" x2="548" y2="41.5" stroke="#E2DECE" stroke-width="0.5"/><text x="38" y="45.5" text-anchor="end" font-size="9" fill="#9C9789">60%</text><line x1="42" y1="67.0" x2="548" y2="67.0" stroke="#E2DECE" stroke-width="0.5"/><text x="38" y="71.0" text-anchor="end" font-size="9" fill="#9C9789">40%</text><line x1="42" y1="92.5" x2="548" y2="92.5" stroke="#E2DECE" stroke-width="0.5"/><text x="38" y="96.5" text-anchor="end" font-size="9" fill="#9C9789">20%</text><line x1="42" y1="118.0" x2="548" y2="118.0" stroke="#E2DECE" stroke-width="0.5"/><text x="38" y="122.0" text-anchor="end" font-size="9" fill="#9C9789">0%</text><rect x="61.0" y="50.3" width="96.8" height="67.7" fill="#BDD0EF" rx="3"/><text x="109.4" y="88.1" text-anchor="middle" font-size="9" fill="white" font-weight="600">53%</text><rect x="168.5" y="29.3" width="96.8" height="88.7" fill="#1D9E75" rx="3"/><text x="216.9" y="77.6" text-anchor="middle" font-size="9" fill="white" font-weight="600">70%</text><text x="168.5" y="132" text-anchor="middle" font-size="9" fill="#6B6659">Literacy</text><rect x="314.0" y="63.9" width="96.8" height="54.1" fill="#BDD0EF" rx="3"/><text x="362.4" y="95.0" text-anchor="middle" font-size="9" fill="white" font-weight="600">42%</text><rect x="421.5" y="46.9" width="96.8" height="71.1" fill="#1D9E75" rx="3"/><text x="469.9" y="86.4" text-anchor="middle" font-size="9" fill="white" font-weight="600">56%</text><text x="421.5" y="132" text-anchor="middle" font-size="9" fill="#6B6659">Speaking</text><rect x="42" y="148" width="10" height="10" fill="#BDD0EF" rx="2"/><text x="55" y="156" font-size="9" fill="#6B6659">2023–24</text><rect x="102.5" y="148" width="10" height="10" fill="#1D9E75" rx="2"/><text x="115.5" y="156" font-size="9" fill="#6B6659">2024–25</text></svg></div></div>
+<div class="card"><div class="ct">Who are our students?</div><div class="cs">494 students — high-need, diverse</div><div style="width:100%"><svg viewBox="0 0 560 170" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:170px"><path d="M 140.0,12.0 A 73,73 0 0,1 140.5,158.0 L 140.3,136.0 A 51,51 0 0,0 140.0,34.0 Z" fill="#2078C8"/><path d="M 140.5,158.0 A 73,73 0 0,1 82.9,130.5 L 100.1,116.8 A 51,51 0 0,0 140.3,136.0 Z" fill="#D96A12"/><path d="M 82.9,130.5 A 73,73 0 0,1 140.0,12.0 L 140.0,34.0 A 51,51 0 0,0 100.1,116.8 Z" fill="#5BA830"/><rect x="233" y="20" width="12" height="12" fill="#2078C8" rx="3"/><text x="249" y="30" font-size="10" fill="#6B6659">Multilingual learners (50%)</text><rect x="233" y="42" width="12" height="12" fill="#D96A12" rx="3"/><text x="249" y="52" font-size="10" fill="#6B6659">Students with IEPs (14%)</text><rect x="233" y="64" width="12" height="12" fill="#5BA830" rx="3"/><text x="249" y="74" font-size="10" fill="#6B6659">General ed (36%)</text></svg></div></div>
+</div>
+
+</div>
+
+<div id="s-ela" class="sec">
+
+<div class="stats">
+<div class="stat"><div class="stat-label">K–3 at lowest reading level (start of year)</div><div class="stat-value">70%</div><div class="stat-delta su">↓ Dropped to 64% by midyear</div><div class="stat-bar" style="background:var(--up)"></div></div>
+<div class="stat"><div class="stat-label">Spanish readers at lowest level (start)</div><div class="stat-value">52%</div><div class="stat-delta su">↓ Dropped to 35% by midyear</div><div class="stat-bar" style="background:var(--up)"></div></div>
+<div class="stat"><div class="stat-label">Gr 3–8 reading growth (NWEA)</div><div class="stat-value">55th pct</div><div class="stat-delta su">↑ Above national norm</div><div class="stat-bar" style="background:var(--up)"></div></div>
+<div class="stat"><div class="stat-label">Grade 8 reading median</div><div class="stat-value">55th pct</div><div class="stat-delta su">↑ Strongest grade in school</div><div class="stat-bar" style="background:var(--up)"></div></div>
+</div>
+<div class="card">
+<div class="ct">K–3 English reading — start of year vs midyear (mClass)</div>
+<div class="cs">Goal: shrink the red, grow the green. Each grade shows beginning of year (start) and middle of year (midyear).</div>
+<div class="leg"><span><span class="ld" style="background:#C0392B"></span>Well below</span><span><span class="ld" style="background:#D96A12"></span>Below</span><span><span class="ld" style="background:#5BA830"></span>At grade level</span><span><span class="ld" style="background:#2078C8"></span>Above</span></div>
+<div id="mclass-bars"></div>
+<div class="sig sg"><div class="sig-ic">↑</div><div><strong>Grade 2 is moving.</strong> Well-below dropped 7 points and 22% are now at grade level, up from 11% at the start of year.</div></div>
+<div class="sig sw2" style="margin-top:.5rem"><div class="sig-ic">!</div><div><strong>K and Grade 1 need urgent focus.</strong> 70–79% of students still at the lowest level at midyear. Phonological awareness work is right — but progress is slow.</div></div>
+</div>
+<div class="card">
+<div class="ct">K–3 Spanish reading — bigger gains (mClass Lectura)</div>
+<div class="cs">Spanish-speaking students are showing stronger movement than English readers — a meaningful win for our 50% multilingual population.</div>
+<div class="leg"><span><span class="ld" style="background:#C0392B"></span>Well below</span><span><span class="ld" style="background:#D96A12"></span>Below</span><span><span class="ld" style="background:#5BA830"></span>At grade level</span><span><span class="ld" style="background:#2078C8"></span>Above</span></div>
+<div id="lectura-bars"></div>
+<div class="sig sg" style="margin-top:.5rem"><div class="sig-ic">⭐</div><div><strong>Kindergarten Lectura is the standout of the year.</strong> Well-below dropped from 65% to 25% — a 40-point swing. These Kindergarteners entered with very limited print exposure.</div></div>
+</div>
+<div class="card">
+<div class="ct">Grades 3–8 reading — where students rank nationally (NWEA Winter 2025–26)</div>
+<div class="cs">The badge shows each grade's median national percentile. The bar shows how all students are spread across 5 bands.</div>
+<div class="leg"><span><span class="ld" style="background:#C0392B"></span>Lowest 20%</span><span><span class="ld" style="background:#D96A12"></span>21–40th</span><span><span class="ld" style="background:#D4B800"></span>41–60th (near grade level)</span><span><span class="ld" style="background:#5BA830"></span>61–80th</span><span><span class="ld" style="background:#2078C8"></span>Top 20%</span></div>
+<div id="nwea-bars"></div>
+<div class="sig sr"><div class="sig-ic">!</div><div><strong>Grades 3 and 4 need the most help.</strong> 53–58% of students are in the lowest national reading band. Both grades are growing well — but starting very far behind.</div></div>
+<div class="sig sg" style="margin-top:.5rem"><div class="sig-ic">↑</div><div><strong>Grade 8 is a strength.</strong> Median at 55th percentile — our typical 8th grader outperforms more than half of students nationwide.</div></div>
+</div>
+<div class="two-col">
+<div class="card">
+<div class="ct">Multilingual learners — reading (NWEA Winter)</div>
+<div class="cs">ML students in Grades 3–6 are concentrated in the lowest band.</div>
+<table class="dt">
+<thead><tr><th>Grade</th><th>Median national rank</th><th>In lowest band</th></tr></thead>
+<tbody id="ml-table"></tbody>
+</table>
+<div class="sig sr" style="margin-top:.75rem"><div class="sig-ic">!</div><div>Grades 3–4 ML students urgently need bridge-to-English literacy support beyond Lectura.</div></div>
+</div>
+<div class="card">
+<div class="ct">Students with IEPs — reading (NWEA Winter)</div>
+<div class="cs">44 students with IEPs tested. Grades 3–5 concentrated in lowest band; 6–8 showing more spread.</div>
+<table class="dt">
+<thead><tr><th>Grade</th><th>Median national rank</th><th>In lowest band</th></tr></thead>
+<tbody id="iep-table"></tbody>
+</table>
+<div class="sig si" style="margin-top:.75rem"><div class="sig-ic">↑</div><div>Gr 6–8 IEP medians near school average — upper-grade supports are working. Gr 3–5 needs co-teaching resources.</div></div>
+</div>
+</div>
+
+</div>
+
+<div id="s-math" class="sec">
+
+<div class="stats">
+<div class="stat"><div class="stat-label">Progress toward typical growth (iReady)</div><div class="stat-value">72%</div><div class="stat-delta su">3rd in district · +13pts above avg</div><div class="stat-bar" style="background:var(--up)"></div></div>
+<div class="stat"><div class="stat-label">District average</div><div class="stat-value">59%</div><div class="stat-delta sn">JSM is +13pts above</div></div>
+<div class="stat"><div class="stat-label">Students 3+ grade levels behind (Jan)</div><div class="stat-value">20%</div><div class="stat-delta su">↓ Was 34% in September</div><div class="stat-bar" style="background:var(--up)"></div></div>
+<div class="stat"><div class="stat-label">Students at/above grade level (Jan)</div><div class="stat-value">11%</div><div class="stat-delta su">↑ Was 2% in September</div><div class="stat-bar" style="background:var(--up)"></div></div>
+</div>
+<div class="card">
+<div class="ct">How does JSM compare to other schools? (iReady, Winter 2025–26)</div>
+<div class="cs">% of students making typical annual math growth. JSM ranked 3rd.</div>
+<div style="width:100%"><svg viewBox="0 0 560 180" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:180px"><line x1="42" y1="16.0" x2="548" y2="16.0" stroke="#E2DECE" stroke-width="0.5"/><text x="38" y="20.0" text-anchor="end" font-size="9" fill="#9C9789">100%</text><line x1="42" y1="44.0" x2="548" y2="44.0" stroke="#E2DECE" stroke-width="0.5"/><text x="38" y="48.0" text-anchor="end" font-size="9" fill="#9C9789">75%</text><line x1="42" y1="72.0" x2="548" y2="72.0" stroke="#E2DECE" stroke-width="0.5"/><text x="38" y="76.0" text-anchor="end" font-size="9" fill="#9C9789">50%</text><line x1="42" y1="100.0" x2="548" y2="100.0" stroke="#E2DECE" stroke-width="0.5"/><text x="38" y="104.0" text-anchor="end" font-size="9" fill="#9C9789">25%</text><line x1="42" y1="128.0" x2="548" y2="128.0" stroke="#E2DECE" stroke-width="0.5"/><text x="38" y="132.0" text-anchor="end" font-size="9" fill="#9C9789">0%</text><rect x="54.6" y="61.9" width="101.2" height="66.1" fill="#D3D1C7" rx="3"/><text x="105.2" y="99.0" text-anchor="middle" font-size="9" font-weight="600" fill="white">59%</text><text x="105.2" y="142" text-anchor="middle" font-size="9" fill="#6B6659">New Haven</text><rect x="181.2" y="41.8" width="101.2" height="86.2" fill="#BDD0EF" rx="3"/><text x="231.8" y="88.9" text-anchor="middle" font-size="9" font-weight="600" fill="white">77%</text><text x="231.8" y="142" text-anchor="middle" font-size="9" fill="#6B6659">ESUMS</text><rect x="307.6" y="44.0" width="101.2" height="84.0" fill="#BDD0EF" rx="3"/><text x="358.2" y="90.0" text-anchor="middle" font-size="9" font-weight="600" fill="white">75%</text><text x="358.2" y="142" text-anchor="middle" font-size="9" fill="#6B6659">Hooker</text><rect x="434.1" y="47.4" width="101.2" height="80.6" fill="#1D9E75" rx="3"/><text x="484.8" y="91.7" text-anchor="middle" font-size="9" font-weight="600" fill="white">72%</text><text x="484.8" y="142" text-anchor="middle" font-size="9" fill="#6B6659">Martinez (JSM)</text></svg></div>
+</div>
+<div class="card">
+<div class="ct">Progress toward typical growth — JSM vs district, by grade</div>
+<div class="cs">100%+ means students are growing faster than nationally expected. Grades where JSM is below district are flagged.</div>
+<table class="dt">
+<thead><tr><th>Grade</th><th>District</th><th>JSM</th><th>Difference</th><th>Signal</th></tr></thead>
+<tbody id="grade-compare"></tbody>
+</table>
+</div>
+<div class="card">
+<div class="ct">Where students are placed — school-wide shift (Sept → Jan)</div>
+<div class="cs">Goal: shrink the red on the left, grow the green on the right.</div>
+<div class="leg"><span><span class="ld" style="background:#A32D2D"></span>3+ grades below</span><span><span class="ld" style="background:#E24B4A"></span>2 grades below</span><span><span class="ld" style="background:#BA7517"></span>1 grade below</span><span><span class="ld" style="background:#5BA830"></span>Early on grade</span><span><span class="ld" style="background:#1D9E75"></span>At/above</span></div>
+<div id="math-shift"></div>
+<div class="sig sg"><div class="sig-ic">↑</div><div><strong>Students are moving up.</strong> 3+ grades behind dropped from 34% to 20% — 14 percentage points in one semester. Many shifted into the "1 grade below" zone, which is more reachable.</div></div>
+<div class="sig sw2" style="margin-top:.5rem"><div class="sig-ic">!</div><div><strong>Still a long way to go.</strong> Only 11% at or near grade level. Growth is real — but most students are still working significantly below grade level.</div></div>
+</div>
+<div class="card">
+<div class="ct">Class-by-class breakdown — placement and growth (iReady)</div>
+<div class="cs">Jan placement shown. Progress toward annual typical growth compared to district average per grade.</div>
+<div style="overflow-x:auto"><table class="ct2">
+<thead><tr><th>Class</th><th>3+ below</th><th>2 below</th><th>1 below</th><th>On grade</th><th>Above</th><th>JSM growth</th><th>District</th><th>vs district</th></tr></thead>
+<tbody id="class-detail"></tbody>
+</table></div>
+</div>
+<div class="two-col">
+<div class="card">
+<div class="ct">Standout classes — above 80% toward typical growth</div>
+<div class="cs">These classes are making outstanding progress</div>
+<div id="bright-spots"></div>
+</div>
+<div class="card">
+<div class="ct">Classes to focus on — below district average</div>
+<div class="cs">Priority for spring support</div>
+<div id="watch-list"></div>
+</div>
+</div>
+
+</div>
+
+<div id="s-att" class="sec">
+
+<div class="stats">
+<div class="stat"><div class="stat-label">Chronically absent students</div><div class="stat-value">108</div><div class="stat-delta sw">Down from 23.3% — goal: 20.9% EOY</div><div class="stat-bar" style="background:var(--warn)"></div></div>
+<div class="stat"><div class="stat-label">Chronic absenteeism rate</div><div class="stat-value">23.3%</div><div class="stat-delta sw">⚠ Goal: 20.9% EOY — gap narrowing</div><div class="stat-bar" style="background:var(--warn)"></div></div>
+<div class="stat"><div class="stat-label">Average daily absence rate</div><div class="stat-value">7.3%</div><div class="stat-delta su">↓ Down from 7.7% last year</div><div class="stat-bar" style="background:var(--up)"></div></div>
+<div class="stat"><div class="stat-label">Never or rarely absent</div><div class="stat-value">46%</div><div class="stat-delta sn">0–4 absences this year</div></div>
+</div>
+<div class="sig sw2" style="margin-bottom:1rem"><div class="sig-ic">!</div><div><strong>To hit our goal, we need ~23 more students to become regularly attending by June.</strong> Focus: shift students out of the 11+ absence buckets.</div></div>
+<div class="card">
+<div class="ct">Where are our absent students? — absence buckets</div>
+<div class="cs">Students with 11+ absences are chronically absent. Target: shift them left.</div>
+<div style="width:100%"><svg viewBox="0 0 560 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:200px"><line x1="42" y1="16.0" x2="548" y2="16.0" stroke="#E2DECE" stroke-width="0.5"/><text x="38" y="20.0" text-anchor="end" font-size="9" fill="#9C9789">55%</text><line x1="42" y1="49.0" x2="548" y2="49.0" stroke="#E2DECE" stroke-width="0.5"/><text x="38" y="53.0" text-anchor="end" font-size="9" fill="#9C9789">41%</text><line x1="42" y1="82.0" x2="548" y2="82.0" stroke="#E2DECE" stroke-width="0.5"/><text x="38" y="86.0" text-anchor="end" font-size="9" fill="#9C9789">28%</text><line x1="42" y1="115.0" x2="548" y2="115.0" stroke="#E2DECE" stroke-width="0.5"/><text x="38" y="119.0" text-anchor="end" font-size="9" fill="#9C9789">14%</text><line x1="42" y1="148.0" x2="548" y2="148.0" stroke="#E2DECE" stroke-width="0.5"/><text x="38" y="152.0" text-anchor="end" font-size="9" fill="#9C9789">0%</text><rect x="52.1" y="37.6" width="81.0" height="110.4" fill="#1D9E75" rx="3"/><text x="92.6" y="96.8" text-anchor="middle" font-size="9" font-weight="600" fill="white">46%</text><text x="92.6" y="162" text-anchor="middle" font-size="9" fill="#6B6659">0–4 abs</text><rect x="153.3" y="85.6" width="81.0" height="62.4" fill="#5BA830" rx="3"/><text x="193.8" y="120.8" text-anchor="middle" font-size="9" font-weight="600" fill="white">26%</text><text x="193.8" y="162" text-anchor="middle" font-size="9" fill="#6B6659">5–10 abs</text><rect x="254.5" y="121.6" width="81.0" height="26.4" fill="#D4B800" rx="3"/><text x="295.0" y="138.8" text-anchor="middle" font-size="9" font-weight="600" fill="white">11%</text><text x="295.0" y="162" text-anchor="middle" font-size="9" fill="#6B6659">11–14 abs</text><rect x="355.7" y="136.0" width="81.0" height="12.0" fill="#D96A12" rx="3"/><text x="396.2" y="162" text-anchor="middle" font-size="9" fill="#6B6659">15–17 abs</text><rect x="456.9" y="119.2" width="81.0" height="28.8" fill="#C0392B" rx="3"/><text x="497.4" y="137.6" text-anchor="middle" font-size="9" font-weight="600" fill="white">12%</text><text x="497.4" y="162" text-anchor="middle" font-size="9" fill="#6B6659">18+ abs</text></svg></div>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:.875rem">
+<div class="sig sr" style="flex:1;min-width:200px;margin-top:0"><div class="sig-ic">!</div><div><strong>18+ absences (12%):</strong> Intensive case management — counselor, family contact, plan.</div></div>
+<div class="sig sw2" style="flex:1;min-width:200px;margin-top:0"><div class="sig-ic">!</div><div><strong>15–17 absences (5%):</strong> Weekly check-ins and incentive program.</div></div>
+<div class="sig si" style="flex:1;min-width:200px;margin-top:0"><div class="sig-ic">i</div><div><strong>11–14 absences (11%):</strong> Mentorship pairing and milestone celebrations.</div></div>
+</div>
+</div>
+<div class="two-col">
+<div class="card"><div class="ct">Chronic absenteeism by grade</div><div class="cs">Which grades have the most absent students?</div><div style="width:100%"><svg viewBox="0 0 560 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:220px"><line x1="42" y1="16.0" x2="548" y2="16.0" stroke="#E2DECE" stroke-width="0.5"/><text x="38" y="20.0" text-anchor="end" font-size="9" fill="#9C9789">35%</text><line x1="42" y1="54.0" x2="548" y2="54.0" stroke="#E2DECE" stroke-width="0.5"/><text x="38" y="58.0" text-anchor="end" font-size="9" fill="#9C9789">26%</text><line x1="42" y1="92.0" x2="548" y2="92.0" stroke="#E2DECE" stroke-width="0.5"/><text x="38" y="96.0" text-anchor="end" font-size="9" fill="#9C9789">18%</text><line x1="42" y1="130.0" x2="548" y2="130.0" stroke="#E2DECE" stroke-width="0.5"/><text x="38" y="134.0" text-anchor="end" font-size="9" fill="#9C9789">9%</text><line x1="42" y1="168.0" x2="548" y2="168.0" stroke="#E2DECE" stroke-width="0.5"/><text x="38" y="172.0" text-anchor="end" font-size="9" fill="#9C9789">0%</text><rect x="47.6" y="72.5" width="45.0" height="95.5" fill="#D96A12" rx="3"/><text x="70.1" y="124.2" text-anchor="middle" font-size="9" font-weight="600" fill="white">22%</text><text x="70.1" y="182" text-anchor="middle" font-size="9" fill="#6B6659">K</text><rect x="103.8" y="81.1" width="45.0" height="86.9" fill="#D96A12" rx="3"/><text x="126.3" y="128.6" text-anchor="middle" font-size="9" font-weight="600" fill="white">20%</text><text x="126.3" y="182" text-anchor="middle" font-size="9" fill="#6B6659">Gr 1</text><rect x="160.1" y="76.8" width="45.0" height="91.2" fill="#D96A12" rx="3"/><text x="182.6" y="126.4" text-anchor="middle" font-size="9" font-weight="600" fill="white">21%</text><text x="182.6" y="182" text-anchor="middle" font-size="9" fill="#6B6659">Gr 2</text><rect x="216.3" y="68.1" width="45.0" height="99.9" fill="#D96A12" rx="3"/><text x="238.8" y="122.1" text-anchor="middle" font-size="9" font-weight="600" fill="white">23%</text><text x="238.8" y="182" text-anchor="middle" font-size="9" fill="#6B6659">Gr 3</text><rect x="272.5" y="63.8" width="45.0" height="104.2" fill="#D96A12" rx="3"/><text x="295.0" y="119.9" text-anchor="middle" font-size="9" font-weight="600" fill="white">24%</text><text x="295.0" y="182" text-anchor="middle" font-size="9" fill="#6B6659">Gr 4</text><rect x="328.7" y="133.3" width="45.0" height="34.7" fill="#1D9E75" rx="3"/><text x="351.2" y="154.6" text-anchor="middle" font-size="9" font-weight="600" fill="white">8%</text><text x="351.2" y="182" text-anchor="middle" font-size="9" fill="#6B6659">Gr 5</text><rect x="385.0" y="59.4" width="45.0" height="108.6" fill="#D96A12" rx="3"/><text x="407.4" y="117.7" text-anchor="middle" font-size="9" font-weight="600" fill="white">25%</text><text x="407.4" y="182" text-anchor="middle" font-size="9" fill="#6B6659">Gr 6</text><rect x="441.2" y="55.1" width="45.0" height="112.9" fill="#C0392B" rx="3"/><text x="463.7" y="115.5" text-anchor="middle" font-size="9" font-weight="600" fill="white">26%</text><text x="463.7" y="182" text-anchor="middle" font-size="9" fill="#6B6659">Gr 7</text><rect x="497.4" y="59.4" width="45.0" height="108.6" fill="#D96A12" rx="3"/><text x="519.9" y="117.7" text-anchor="middle" font-size="9" font-weight="600" fill="white">25%</text><text x="519.9" y="182" text-anchor="middle" font-size="9" fill="#6B6659">Gr 8</text></svg></div></div>
+<div class="card">
+<div class="ct">Staff attendance — 24/25 vs 25/26 (estimated)</div>
+<div class="cs">Replace with actual HR data when available</div>
+<div class="stats2" style="margin-bottom:.75rem">
+<div class="stat" style="padding:10px 12px"><div class="stat-label">Avg attendance 24–25</div><div class="stat-value" style="font-size:18px">94.2%</div></div>
+<div class="stat" style="padding:10px 12px"><div class="stat-label">Avg attendance 25–26</div><div class="stat-value" style="font-size:18px;color:var(--warn)">91.8%</div></div>
+</div>
+<div style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:#E2F4EC;border-radius:8px;border:1px solid #A8DFC5;margin-bottom:.75rem">
+<span style="font-size:11px;color:#0E6B4E;font-weight:600">Administrator absences — combined SY 25–26</span>
+<span style="font-size:18px;font-weight:700;color:#0E6B4E">3 days</span>
+</div>
+<div style="width:100%"><svg viewBox="0 0 560 115" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:115px"><line x1="42" y1="16.0" x2="548" y2="16.0" stroke="#E2DECE" stroke-width="0.5"/><text x="38" y="20.0" text-anchor="end" font-size="9" fill="#9C9789">45%</text><line x1="42" y1="27.8" x2="548" y2="27.8" stroke="#E2DECE" stroke-width="0.5"/><text x="38" y="31.8" text-anchor="end" font-size="9" fill="#9C9789">34%</text><line x1="42" y1="39.5" x2="548" y2="39.5" stroke="#E2DECE" stroke-width="0.5"/><text x="38" y="43.5" text-anchor="end" font-size="9" fill="#9C9789">22%</text><line x1="42" y1="51.2" x2="548" y2="51.2" stroke="#E2DECE" stroke-width="0.5"/><text x="38" y="55.2" text-anchor="end" font-size="9" fill="#9C9789">11%</text><line x1="42" y1="63.0" x2="548" y2="63.0" stroke="#E2DECE" stroke-width="0.5"/><text x="38" y="67.0" text-anchor="end" font-size="9" fill="#9C9789">0%</text><rect x="49.6" y="23.3" width="38.7" height="39.7" fill="#BDD0EF" rx="3"/><text x="68.9" y="47.2" text-anchor="middle" font-size="9" fill="white" font-weight="600">38%</text><rect x="92.6" y="31.7" width="38.7" height="31.3" fill="#D96A12" rx="3"/><text x="112.0" y="51.3" text-anchor="middle" font-size="9" fill="white" font-weight="600">30%</text><text x="92.6" y="77" text-anchor="middle" font-size="9" fill="#6B6659">0–2 days</text><rect x="150.8" y="27.5" width="38.7" height="35.5" fill="#BDD0EF" rx="3"/><text x="170.1" y="49.2" text-anchor="middle" font-size="9" fill="white" font-weight="600">34%</text><rect x="193.8" y="26.4" width="38.7" height="36.6" fill="#D96A12" rx="3"/><text x="213.2" y="48.7" text-anchor="middle" font-size="9" fill="white" font-weight="600">35%</text><text x="193.8" y="77" text-anchor="middle" font-size="9" fill="#6B6659">3–5 days</text><rect x="252.0" y="44.2" width="38.7" height="18.8" fill="#BDD0EF" rx="3"/><text x="271.3" y="57.6" text-anchor="middle" font-size="9" fill="white" font-weight="600">18%</text><rect x="295.0" y="40.0" width="38.7" height="23.0" fill="#D96A12" rx="3"/><text x="314.4" y="55.5" text-anchor="middle" font-size="9" fill="white" font-weight="600">22%</text><text x="295.0" y="77" text-anchor="middle" font-size="9" fill="#6B6659">6–9 days</text><rect x="353.2" y="54.6" width="38.7" height="8.4" fill="#BDD0EF" rx="3"/><rect x="396.2" y="52.6" width="38.7" height="10.4" fill="#D96A12" rx="3"/><text x="396.2" y="77" text-anchor="middle" font-size="9" fill="#6B6659">10–14 days</text><rect x="454.4" y="60.9" width="38.7" height="2.1" fill="#BDD0EF" rx="3"/><rect x="497.4" y="59.9" width="38.7" height="3.1" fill="#D96A12" rx="3"/><text x="497.4" y="77" text-anchor="middle" font-size="9" fill="#6B6659">15+ days</text><rect x="42" y="93" width="10" height="10" fill="#BDD0EF" rx="2"/><text x="55" y="101" font-size="9" fill="#6B6659">2024–25</text><rect x="102.5" y="93" width="10" height="10" fill="#D96A12" rx="2"/><text x="115.5" y="101" font-size="9" fill="#6B6659">2025–26 (est)</text></svg></div>
+</div>
+</div>
+
+</div>
+
+<div id="s-clim" class="sec">
+
+<div class="stats">
+<div class="stat"><div class="stat-label">Students feel they belong</div><div class="stat-value">62%</div><div class="stat-delta su">↑ Was 58% last year</div><div class="stat-bar" style="background:var(--up)"></div></div>
+<div class="stat"><div class="stat-label">Families feel positive about school</div><div class="stat-value">85%</div><div class="stat-delta su">↑ Was 78% last year</div><div class="stat-bar" style="background:var(--up)"></div></div>
+<div class="stat"><div class="stat-label">Staff feel positive about school</div><div class="stat-value">87%</div><div class="stat-delta su">↑ Was 81% last year</div><div class="stat-bar" style="background:var(--up)"></div></div>
+<div class="stat"><div class="stat-label">Suspensions this year</div><div class="stat-value">0</div><div class="stat-delta su">↓ Was 1 last year</div><div class="stat-bar" style="background:var(--up)"></div></div>
+</div>
+<div class="card">
+<div class="ct">Who completed the climate survey?</div>
+<div class="cs">Survey data is only useful if people respond. Students are fully engaged — families are not yet.</div>
+<div class="ring-group">
+<div class="ring-wrap"><svg width="100" height="100" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="#e8e6df" stroke-width="12"/><circle cx="50" cy="50" r="40" fill="none" stroke="#1D9E75" stroke-width="12" stroke-dasharray="251.3" stroke-dashoffset="0" stroke-linecap="round" transform="rotate(-90 50 50)"/><text x="50" y="55" text-anchor="middle" style="font-size:17px;font-weight:700;fill:#1C1A14;font-family:sans-serif">100%</text></svg><div class="ring-lbl">Students</div><span class="ring-badge" style="background:#E2F4EC;color:#0E6B4E">Everyone responded</span></div>
+<div class="ring-wrap"><svg width="100" height="100" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="#e8e6df" stroke-width="12"/><circle cx="50" cy="50" r="40" fill="none" stroke="#D4B800" stroke-width="12" stroke-dasharray="251.3" stroke-dashoffset="124" stroke-linecap="round" transform="rotate(-90 50 50)"/><text x="50" y="55" text-anchor="middle" style="font-size:17px;font-weight:700;fill:#1C1A14;font-family:sans-serif">51%</text></svg><div class="ring-lbl">Staff</div><span class="ring-badge" style="background:#FEF3DE;color:#7A4E00">About half responded</span></div>
+<div class="ring-wrap"><svg width="100" height="100" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="#e8e6df" stroke-width="12"/><circle cx="50" cy="50" r="40" fill="none" stroke="#A0280E" stroke-width="12" stroke-dasharray="251.3" stroke-dashoffset="229" stroke-linecap="round" transform="rotate(-90 50 50)"/><text x="50" y="55" text-anchor="middle" style="font-size:17px;font-weight:700;fill:#1C1A14;font-family:sans-serif">9%</text></svg><div class="ring-lbl">Families</div><span class="ring-badge" style="background:#FCEAE7;color:#791F1F">Almost no response</span></div>
+</div>
+<div class="sig sr"><div class="sig-ic">!</div><div><strong>Only 1 in 11 families responded.</strong> Class Dojo → NHPS app transition created friction that directly contributed to the low family response rate. Addressing this before next survey cycle is a priority.</div></div>
+</div>
+<div class="card"><div class="ct">Climate scores — last year vs this year</div><div class="cs">Every indicator improved. Staff-student relationships stayed flat and need attention.</div><div class="leg"><span><span class="ld" style="background:#BDD0EF"></span>2024</span><span><span class="ld" style="background:#1D9E75"></span>2025</span></div><div style="width:100%"><svg viewBox="0 0 560 280" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:280px"><line x1="160.0" y1="16" x2="160.0" y2="244" stroke="#E2DECE" stroke-width="0.5"/><text x="160.0" y="256" text-anchor="middle" font-size="9" fill="#9C9789">50%</text><line x1="245.0" y1="16" x2="245.0" y2="244" stroke="#E2DECE" stroke-width="0.5"/><text x="245.0" y="256" text-anchor="middle" font-size="9" fill="#9C9789">61%</text><line x1="330.0" y1="16" x2="330.0" y2="244" stroke="#E2DECE" stroke-width="0.5"/><text x="330.0" y="256" text-anchor="middle" font-size="9" fill="#9C9789">72%</text><line x1="415.0" y1="16" x2="415.0" y2="244" stroke="#E2DECE" stroke-width="0.5"/><text x="415.0" y="256" text-anchor="middle" font-size="9" fill="#9C9789">84%</text><line x1="500.0" y1="16" x2="500.0" y2="244" stroke="#E2DECE" stroke-width="0.5"/><text x="500.0" y="256" text-anchor="middle" font-size="9" fill="#9C9789">95%</text><text x="154" y="39.0" text-anchor="end" font-size="9" fill="#6B6659">Student belonging</text><rect x="160" y="21.7" width="60.4" height="13.3" fill="#BDD0EF" rx="3"/><text x="223.4" y="31.7" font-size="9" fill="#6B6659">58%</text><rect x="160" y="36.3" width="90.7" height="13.3" fill="#1D9E75" rx="3"/><text x="253.7" y="46.3" font-size="9" fill="#6B6659">62%</text><text x="154" y="77.0" text-anchor="end" font-size="9" fill="#6B6659">Student-staff rel.</text><rect x="160" y="59.7" width="75.6" height="13.3" fill="#BDD0EF" rx="3"/><text x="238.6" y="69.7" font-size="9" fill="#6B6659">60%</text><rect x="160" y="74.3" width="75.6" height="13.3" fill="#1D9E75" rx="3"/><text x="238.6" y="84.3" font-size="9" fill="#6B6659">60%</text><text x="154" y="115.0" text-anchor="end" font-size="9" fill="#6B6659">Parent belonging</text><rect x="160" y="97.7" width="188.9" height="13.3" fill="#BDD0EF" rx="3"/><text x="351.9" y="107.7" font-size="9" fill="#6B6659">75%</text><rect x="160" y="112.3" width="249.3" height="13.3" fill="#1D9E75" rx="3"/><text x="412.3" y="122.3" font-size="9" fill="#6B6659">83%</text><text x="154" y="153.0" text-anchor="end" font-size="9" fill="#6B6659">Parent overall</text><rect x="160" y="135.7" width="211.6" height="13.3" fill="#BDD0EF" rx="3"/><text x="374.6" y="145.7" font-size="9" fill="#6B6659">78%</text><rect x="160" y="150.3" width="264.4" height="13.3" fill="#1D9E75" rx="3"/><text x="427.4" y="160.3" font-size="9" fill="#6B6659">85%</text><text x="154" y="191.0" text-anchor="end" font-size="9" fill="#6B6659">Staff belonging</text><rect x="160" y="173.7" width="188.9" height="13.3" fill="#BDD0EF" rx="3"/><text x="351.9" y="183.7" font-size="9" fill="#6B6659">75%</text><rect x="160" y="188.3" width="272.0" height="13.3" fill="#1D9E75" rx="3"/><text x="435.0" y="198.3" font-size="9" fill="#6B6659">86%</text><text x="154" y="229.0" text-anchor="end" font-size="9" fill="#6B6659">Staff overall</text><rect x="160" y="211.7" width="234.2" height="13.3" fill="#BDD0EF" rx="3"/><text x="397.2" y="221.7" font-size="9" fill="#6B6659">81%</text><rect x="160" y="226.3" width="279.6" height="13.3" fill="#1D9E75" rx="3"/><text x="442.6" y="236.3" font-size="9" fill="#6B6659">87%</text><rect x="160" y="262" width="10" height="10" fill="#BDD0EF" rx="2"/><text x="173" y="270" font-size="9" fill="#6B6659">2024</text><rect x="204.0" y="262" width="10" height="10" fill="#1D9E75" rx="2"/><text x="217.0" y="270" font-size="9" fill="#6B6659">2025</text></svg></div></div>
+<div class="two-col">
+<div class="card">
+<div class="ct">Key student responses</div>
+<div class="cs">What students said on the climate survey</div>
+<div class="progr"><span class="prog-lbl">"Friends who care about me"</span><div class="prog-trk"><div class="prog-fill" style="width:84%;background:#1D9E75"></div></div><span class="prog-val">84%</span></div>
+<div class="progr"><span class="prog-lbl">Different backgrounds valued</span><div class="prog-trk"><div class="prog-fill" style="width:74%;background:#1D9E75"></div></div><span class="prog-val">74%</span></div>
+<div class="progr"><span class="prog-lbl">Want to come daily</span><div class="prog-trk"><div class="prog-fill" style="width:47%;background:#5BA830"></div></div><span class="prog-val" style="font-size:11px">47% <span style="color:var(--up)">(+13%)</span></span></div>
+<div class="progr"><span class="prog-lbl">Feel belonging &amp; community</span><div class="prog-trk"><div class="prog-fill" style="width:62%;background:#5BA830"></div></div><span class="prog-val" style="font-size:11px">62% <span style="color:var(--up)">(+4%)</span></span></div>
+<div class="progr"><span class="prog-lbl">Staff-student relationships</span><div class="prog-trk"><div class="prog-fill" style="width:60%;background:#D4B800"></div></div><span class="prog-val" style="font-size:11px">60% <span style="color:var(--warn)">(flat)</span></span></div>
+</div>
+<div class="card">
+<div class="ct">Discipline — zero suspensions</div>
+<div class="cs">A meaningful shift from last year</div>
+<div style="display:flex;flex-direction:column;gap:8px;margin-top:4px">
+<div style="display:flex;align-items:center;justify-content:space-between;padding:11px 14px;background:var(--surface2);border-radius:10px;border:1px solid var(--border)"><span style="font-size:13px;color:var(--text2)">Suspensions 2024–25</span><span style="font-size:22px;font-weight:700;color:var(--text)">1</span></div>
+<div style="display:flex;align-items:center;justify-content:space-between;padding:11px 14px;background:#E2F4EC;border-radius:10px;border:1px solid #A8DFC5"><span style="font-size:13px;color:var(--up);font-weight:600">Suspensions 2025–26</span><span style="font-size:22px;font-weight:700;color:var(--up)">0</span></div>
+<p style="font-size:12px;color:var(--text2);line-height:1.6;padding-top:4px">Zero suspensions this year (down from 1 last year) reflects restorative practices, peer mediation, and daily proactive relationship-building across every grade level.</p>
+</div>
+</div>
+</div>
+
+</div>
+
+<div id="s-pog" class="sec">
+
+<div class="sig si" style="margin-bottom:1rem"><div class="sig-ic">i</div><div>Each competency maps JSM's actual data to the NHPS Portrait of a Graduate. Green = strong evidence, Blue = developing, Amber = growth area.</div></div>
+<div class="card">
+<div class="ct">Portrait of a Graduate — evidence from this year</div>
+<div class="prow"><div class="phdr"><div class="pic" style="background:#E5EEFA"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="#0C4A8C" stroke-width="1.2"/><path d="M4.5 7.5l1.8 1.8 3.2-3.6" stroke="#0C4A8C" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="pname">Critical thinker</span></div><div class="pbars"><div class="brow"><span class="bl">Strengths</span><div class="btrk"><div class="bfill" style="width:75%;background:#0E6B4E"></div></div><span class="bv" style="color:#0E6B4E">Strong</span></div><div class="brow"><span class="bl">In progress</span><div class="btrk"><div class="bfill" style="width:60%;background:#2078C8"></div></div><span class="bv" style="color:#2078C8">Active</span></div><div class="brow"><span class="bl">Growth areas</span><div class="btrk"><div class="bfill" style="width:45%;background:#D4B800"></div></div><span class="bv" style="color:#7A4E00">Moderate</span></div></div><div class="tags"><span class="tag tg">DataWise school-wide</span><span class="tag tg">Student goal conferences</span><span class="tag ta">Gr 3–4 reading at 12th–16th pct</span></div></div>
+<div class="prow"><div class="phdr"><div class="pic" style="background:#E2F4EC"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 9l3-3 2.5 2.5L11 4" stroke="#0E6B4E" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="pname">Resilient learner</span></div><div class="pbars"><div class="brow"><span class="bl">Strengths</span><div class="btrk"><div class="bfill" style="width:85%;background:#0E6B4E"></div></div><span class="bv" style="color:#0E6B4E">Strong</span></div><div class="brow"><span class="bl">In progress</span><div class="btrk"><div class="bfill" style="width:65%;background:#2078C8"></div></div><span class="bv" style="color:#2078C8">Active</span></div><div class="brow"><span class="bl">Growth areas</span><div class="btrk"><div class="bfill" style="width:35%;background:#D4B800"></div></div><span class="bv" style="color:#7A4E00">Low</span></div></div><div class="tags"><span class="tag tg">72% toward ATG — 3rd in district</span><span class="tag tg">Grade 8 reading: 55th pct</span><span class="tag ta">Grade 5 math: 0% at grade level</span></div></div>
+<div class="prow"><div class="phdr"><div class="pic" style="background:#EEF0FE"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v10M2 7h10" stroke="#3B3899" stroke-width="1.3" stroke-linecap="round"/></svg></div><span class="pname">Creative innovator</span></div><div class="pbars"><div class="brow"><span class="bl">Strengths</span><div class="btrk"><div class="bfill" style="width:80%;background:#0E6B4E"></div></div><span class="bv" style="color:#0E6B4E">Strong</span></div><div class="brow"><span class="bl">In progress</span><div class="btrk"><div class="bfill" style="width:70%;background:#2078C8"></div></div><span class="bv" style="color:#2078C8">Active</span></div><div class="brow"><span class="bl">Growth areas</span><div class="btrk"><div class="bfill" style="width:40%;background:#D4B800"></div></div><span class="bv" style="color:#7A4E00">Moderate</span></div></div><div class="tags"><span class="tag tg">Science SBA: 12% → 40%</span><span class="tag tg">2026 Magnet of Excellence</span><span class="tag ta">Science index –2.62 (25–26)</span></div></div>
+<div class="prow"><div class="phdr"><div class="pic" style="background:#FCEAE7"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="2" y="3.5" width="10" height="7" rx="1.5" stroke="#A0280E" stroke-width="1.1"/><path d="M5 6.5h4M5 8.5h2.5" stroke="#A0280E" stroke-width="1" stroke-linecap="round"/></svg></div><span class="pname">Effective communicator</span></div><div class="pbars"><div class="brow"><span class="bl">Strengths</span><div class="btrk"><div class="bfill" style="width:78%;background:#0E6B4E"></div></div><span class="bv" style="color:#0E6B4E">Strong</span></div><div class="brow"><span class="bl">In progress</span><div class="btrk"><div class="bfill" style="width:75%;background:#2078C8"></div></div><span class="bv" style="color:#2078C8">Active</span></div><div class="brow"><span class="bl">Growth areas</span><div class="btrk"><div class="bfill" style="width:42%;background:#D4B800"></div></div><span class="bv" style="color:#7A4E00">Moderate</span></div></div><div class="tags"><span class="tag tg">92% ML students pass LAS speaking</span><span class="tag tb">K–8 evidence writing focus</span><span class="tag ta">Grade 4 ML reading: 9th pct median</span></div></div>
+<div class="prow"><div class="phdr"><div class="pic" style="background:#FCEAE7"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="5.5" r="2.2" stroke="#A0280E" stroke-width="1.1"/><path d="M2.5 12c0-2.5 2-4.5 4.5-4.5s4.5 2 4.5 4.5" stroke="#A0280E" stroke-width="1.1" stroke-linecap="round"/></svg></div><span class="pname">Empathetic connector</span></div><div class="pbars"><div class="brow"><span class="bl">Strengths</span><div class="btrk"><div class="bfill" style="width:82%;background:#0E6B4E"></div></div><span class="bv" style="color:#0E6B4E">Strong</span></div><div class="brow"><span class="bl">In progress</span><div class="btrk"><div class="bfill" style="width:68%;background:#2078C8"></div></div><span class="bv" style="color:#2078C8">Active</span></div><div class="brow"><span class="bl">Growth areas</span><div class="btrk"><div class="bfill" style="width:38%;background:#D4B800"></div></div><span class="bv" style="color:#7A4E00">Low</span></div></div><div class="tags"><span class="tag tg">84% have friends who care about them</span><span class="tag tg">Peer mediation + Breakfast with Bigs</span><span class="tag ta">Staff-student relationships flat 60%</span></div></div>
+<div class="prow"><div class="phdr"><div class="pic" style="background:#E2F4EC"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5" stroke="#0E6B4E" stroke-width="1.1"/><path d="M7 2c-1.5 1.5-2.5 3-2.5 5s1 3.5 2.5 5M7 2c1.5 1.5 2.5 3 2.5 5s-1 3.5-2.5 5M2 7h10" stroke="#0E6B4E" stroke-width="1" stroke-linecap="round"/></svg></div><span class="pname">Civic &amp; global contributor</span></div><div class="pbars"><div class="brow"><span class="bl">Strengths</span><div class="btrk"><div class="bfill" style="width:88%;background:#0E6B4E"></div></div><span class="bv" style="color:#0E6B4E">Strong</span></div><div class="brow"><span class="bl">In progress</span><div class="btrk"><div class="bfill" style="width:72%;background:#2078C8"></div></div><span class="bv" style="color:#2078C8">Active</span></div><div class="brow"><span class="bl">Growth areas</span><div class="btrk"><div class="bfill" style="width:30%;background:#D4B800"></div></div><span class="bv" style="color:#7A4E00">Low</span></div></div><div class="tags"><span class="tag tg">14+ community partners</span><span class="tag tg">Vermont Leadership Trip — 37 students</span><span class="tag ta">23.3% CA limits civic participation</span></div></div>
+</div>
+
+</div>
+
+<div id="s-sip" class="sec">
+
+<div class="stats">
+<div class="stat"><div class="stat-label">Priority areas</div><div class="stat-value">4</div><div class="stat-delta sn">Teaching · Family · Culture · Ops</div></div>
+<div class="stat"><div class="stat-label">SBA ELA proficiency</div><div class="stat-value">24%</div><div class="stat-delta su">↑ Was 15% two years ago</div><div class="stat-bar" style="background:var(--up)"></div></div>
+<div class="stat"><div class="stat-label">SBA Math proficiency</div><div class="stat-value">17%</div><div class="stat-delta su">↑ Was 8% two years ago</div><div class="stat-bar" style="background:var(--up)"></div></div>
+<div class="stat"><div class="stat-label">SBA Science proficiency</div><div class="stat-value">40%</div><div class="stat-delta su">↑ Was 12% in 2021–22</div><div class="stat-bar" style="background:var(--up)"></div></div>
+</div>
+<div class="card"><div class="ct">State test proficiency — trending up?</div><div class="cs">All three subjects improving year over year. Science leads the way.</div><div class="leg"><span><span class="ld" style="background:#2078C8"></span>Math</span><span><span class="ld" style="background:#1D9E75"></span>ELA</span><span><span class="ld" style="background:#534AB7"></span>Science</span></div><div style="width:100%"><svg viewBox="0 0 560 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:200px"><line x1="40" y1="16.0" x2="520" y2="16.0" stroke="#E2DECE" stroke-width="0.5"/><text x="36" y="20.0" text-anchor="end" font-size="9" fill="#9C9789">50%</text><line x1="40" y1="51.0" x2="520" y2="51.0" stroke="#E2DECE" stroke-width="0.5"/><text x="36" y="55.0" text-anchor="end" font-size="9" fill="#9C9789">38%</text><line x1="40" y1="86.0" x2="520" y2="86.0" stroke="#E2DECE" stroke-width="0.5"/><text x="36" y="90.0" text-anchor="end" font-size="9" fill="#9C9789">25%</text><line x1="40" y1="121.0" x2="520" y2="121.0" stroke="#E2DECE" stroke-width="0.5"/><text x="36" y="125.0" text-anchor="end" font-size="9" fill="#9C9789">12%</text><line x1="40" y1="156.0" x2="520" y2="156.0" stroke="#E2DECE" stroke-width="0.5"/><text x="36" y="160.0" text-anchor="end" font-size="9" fill="#9C9789">0%</text><text x="40.0" y="169" text-anchor="middle" font-size="9" fill="#6B6659">2021–22</text><text x="200.0" y="169" text-anchor="middle" font-size="9" fill="#6B6659">2022–23</text><text x="360.0" y="169" text-anchor="middle" font-size="9" fill="#6B6659">2023–24</text><text x="520.0" y="169" text-anchor="middle" font-size="9" fill="#6B6659">2024–25</text><path d="M 360.0,133.6 L 520.0,108.4" stroke="#2078C8" stroke-width="2.5" fill="none"/><circle cx="360.0" cy="133.6" r="5" fill="#2078C8"/><text x="360.0" y="124.6" text-anchor="middle" font-size="9" fill="#2078C8" font-weight="600">8%</text><circle cx="520.0" cy="108.4" r="5" fill="#2078C8"/><text x="520.0" y="99.4" text-anchor="middle" font-size="9" fill="#2078C8" font-weight="600">17%</text><path d="M 360.0,114.0 L 520.0,88.8" stroke="#0E6B4E" stroke-width="2.5" fill="none"/><circle cx="360.0" cy="114.0" r="5" fill="#0E6B4E"/><text x="360.0" y="105.0" text-anchor="middle" font-size="9" fill="#0E6B4E" font-weight="600">15%</text><circle cx="520.0" cy="88.8" r="5" fill="#0E6B4E"/><text x="520.0" y="79.8" text-anchor="middle" font-size="9" fill="#0E6B4E" font-weight="600">24%</text><path d="M 40.0,122.4 L 520.0,44.0" stroke="#534AB7" stroke-width="2.5" fill="none"/><circle cx="40.0" cy="122.4" r="5" fill="#534AB7"/><text x="40.0" y="113.4" text-anchor="middle" font-size="9" fill="#534AB7" font-weight="600">12%</text><circle cx="520.0" cy="44.0" r="5" fill="#534AB7"/><text x="520.0" y="35.0" text-anchor="middle" font-size="9" fill="#534AB7" font-weight="600">40%</text><rect x="40" y="182" width="10" height="10" fill="#2078C8" rx="2"/><text x="53" y="190" font-size="9" fill="#6B6659">Math</text><rect x="84.0" y="182" width="10" height="10" fill="#0E6B4E" rx="2"/><text x="97.0" y="190" font-size="9" fill="#6B6659">ELA</text><rect x="122.5" y="182" width="10" height="10" fill="#534AB7" rx="2"/><text x="135.5" y="190" font-size="9" fill="#6B6659">Science</text></svg></div></div>
+<div class="sipg">
+<div class="sic"><div class="sin">Priority 1 — Teaching &amp; learning</div><div class="sis">DataWise · equity lens · learning walks</div><ul class="sil"><li>K–1: Phonological awareness (mClass evidence: 70–85% well below)</li><li>Gr 2–3: Decoding (targeted small groups from mClass data)</li><li>Gr 4–8: Finding evidence to support claims</li><li>Coaching cycles, lesson plan review, DOK posters</li><li>iReady + NWEA driving weekly small-group placement</li></ul></div>
+<div class="sic"><div class="sin">Priority 2 — Family &amp; community</div><div class="sis">Strengthen engagement · expand partnerships</div><ul class="sil"><li>Monthly field trips, outdoor classroom, STEM challenges</li><li>Community Day with 9 partners; Vermont Leadership Trip</li><li>Breakfast with Bigs mentorship program</li><li>Bilingual math newsletters (English &amp; Spanish)</li><li>14+ community partners active</li></ul></div>
+<div class="sic"><div class="sin">Priority 3 — Culture &amp; climate</div><div class="sis">Attendance · belonging · student voice</div><ul class="sil"><li>Lift Zone A &amp; B targeted attendance interventions</li><li>Peer mediation, Student Council, afterschool clubs</li><li>Goal: reduce CA from 23.3% to 20.9% by June</li><li>Zero suspensions (was 1 last year) — restorative practices in effect</li></ul></div>
+<div class="sic"><div class="sin">Priority 4 — Operational efficiencies</div><div class="sis">Communication systems · tech onboarding</div><ul class="sil"><li>Transition from Class Dojo → NHPS app (Apptegy)</li><li>Multi-channel family onboarding through June</li><li>District training for teachers, principals, APs</li><li>Family survey response: 9% (completed — urgent gap to address next cycle)</li></ul></div>
+</div>
+<div class="card" style="margin-top:0">
+<div class="ct">What's getting in the way — and what we need from central office</div>
+<div class="two-col" style="margin-bottom:0">
+<div><div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:8px">Barriers we're navigating</div><ul class="sil"><li>ML reading support fades after Gr 3 — 41–69% of ML students in Gr 4–6 in lowest reading band</li><li>IEP students Gr 3–5: 70–100% in lowest reading band — co-teaching resources needed</li><li>Title I tutoring budget limited — we have the targeting data but not the capacity</li></ul></div>
+<div><div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:8px">What we're asking central office for</div><ul class="sil"><li>DataWise fidelity check — spring supervisor visit</li><li>Structured cross-school collaboration with peer principals</li><li>District guidance on accelerating Apptegy family adoption</li></ul></div>
+</div>
+</div>
+
+</div>
+
+<div id="s-ap" class="sec">
+
+<div class="stats3">
+<div class="stat"><div class="stat-label">Weeks left in school year</div><div class="stat-value">~11</div><div class="stat-delta sn">Apr 1 – Jun 20, 2026</div></div>
+<div class="stat"><div class="stat-label">SBAC testing window</div><div class="stat-value">Apr–May</div><div class="stat-delta sw">⚠ Grades 3–8 ELA &amp; Math</div></div>
+<div class="stat"><div class="stat-label">Students to move out of chronic absence</div><div class="stat-value">~23</div><div class="stat-delta sw">From 108 to ~85</div></div>
+</div>
+<div class="card">
+<div class="ct">Attendance: moving students out of chronic absence by June</div>
+<div class="cs">Goal: shift students left. Each bucket reduction moves students out of chronic absence.</div>
+<div class="leg"><span><span class="ld" style="background:#BDD0EF"></span>Current (midyear)</span><span><span class="ld" style="background:#1D9E75"></span>End-of-year goal</span></div>
+<div style="width:100%"><svg viewBox="0 0 560 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:200px"><line x1="42" y1="16.0" x2="548" y2="16.0" stroke="#E2DECE" stroke-width="0.5"/><text x="38" y="20.0" text-anchor="end" font-size="9" fill="#9C9789">60%</text><line x1="42" y1="49.0" x2="548" y2="49.0" stroke="#E2DECE" stroke-width="0.5"/><text x="38" y="53.0" text-anchor="end" font-size="9" fill="#9C9789">45%</text><line x1="42" y1="82.0" x2="548" y2="82.0" stroke="#E2DECE" stroke-width="0.5"/><text x="38" y="86.0" text-anchor="end" font-size="9" fill="#9C9789">30%</text><line x1="42" y1="115.0" x2="548" y2="115.0" stroke="#E2DECE" stroke-width="0.5"/><text x="38" y="119.0" text-anchor="end" font-size="9" fill="#9C9789">15%</text><line x1="42" y1="148.0" x2="548" y2="148.0" stroke="#E2DECE" stroke-width="0.5"/><text x="38" y="152.0" text-anchor="end" font-size="9" fill="#9C9789">0%</text><rect x="49.6" y="46.8" width="38.7" height="101.2" fill="#BDD0EF" rx="3"/><text x="68.9" y="101.4" text-anchor="middle" font-size="9" fill="white" font-weight="600">46%</text><rect x="92.6" y="33.6" width="38.7" height="114.4" fill="#1D9E75" rx="3"/><text x="112.0" y="94.8" text-anchor="middle" font-size="9" fill="white" font-weight="600">52%</text><text x="92.6" y="162" text-anchor="middle" font-size="9" fill="#6B6659">0–4 abs</text><rect x="150.8" y="90.8" width="38.7" height="57.2" fill="#BDD0EF" rx="3"/><text x="170.1" y="123.4" text-anchor="middle" font-size="9" fill="white" font-weight="600">26%</text><rect x="193.8" y="86.4" width="38.7" height="61.6" fill="#1D9E75" rx="3"/><text x="213.2" y="121.2" text-anchor="middle" font-size="9" fill="white" font-weight="600">28%</text><text x="193.8" y="162" text-anchor="middle" font-size="9" fill="#6B6659">5–10 abs</text><rect x="252.0" y="123.8" width="38.7" height="24.2" fill="#BDD0EF" rx="3"/><text x="271.3" y="139.9" text-anchor="middle" font-size="9" fill="white" font-weight="600">11%</text><rect x="295.0" y="130.4" width="38.7" height="17.6" fill="#1D9E75" rx="3"/><text x="314.4" y="143.2" text-anchor="middle" font-size="9" fill="white" font-weight="600">8%</text><text x="295.0" y="162" text-anchor="middle" font-size="9" fill="#6B6659">11–14 abs</text><rect x="353.2" y="137.0" width="38.7" height="11.0" fill="#BDD0EF" rx="3"/><rect x="396.2" y="139.2" width="38.7" height="8.8" fill="#1D9E75" rx="3"/><text x="396.2" y="162" text-anchor="middle" font-size="9" fill="#6B6659">15–17 abs</text><rect x="454.4" y="121.6" width="38.7" height="26.4" fill="#BDD0EF" rx="3"/><text x="473.7" y="138.8" text-anchor="middle" font-size="9" fill="white" font-weight="600">12%</text><rect x="497.4" y="130.4" width="38.7" height="17.6" fill="#1D9E75" rx="3"/><text x="516.8" y="143.2" text-anchor="middle" font-size="9" fill="white" font-weight="600">8%</text><text x="497.4" y="162" text-anchor="middle" font-size="9" fill="#6B6659">18+ abs</text><rect x="42" y="178" width="10" height="10" fill="#BDD0EF" rx="2"/><text x="55" y="186" font-size="9" fill="#6B6659">Current</text><rect x="102.5" y="178" width="10" height="10" fill="#1D9E75" rx="2"/><text x="115.5" y="186" font-size="9" fill="#6B6659">Goal by June</text></svg></div>
+</div>
+<div class="apg">
+<div class="apc"><div class="apih"><div class="apic" style="background:#E5EEFA"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 4h9M2.5 7h9M2.5 10h5" stroke="#0C4A8C" stroke-width="1.2" stroke-linecap="round"/></svg></div><span class="apt">SBAC prep</span></div><div class="apd">April – May</div><ul class="sil"><li>Small-group test prep: ELA evidence writing &amp; math problem solving</li><li>Focus on Level 2 students — nearing proficiency, highest-leverage group</li><li>Practice with real SBAC item types; IABs used as practice tests</li><li>Content area teachers co-supporting SBA strategies school-wide</li><li>72 students with IEPs testing with accommodations</li><li>Growth mindset framing — every student has a data card showing their growth</li></ul></div>
+<div class="apc"><div class="apih"><div class="apic" style="background:#FEF3DE"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5" stroke="#7A4E00" stroke-width="1.2"/><path d="M7 4.5V7.5l2 1.2" stroke="#7A4E00" stroke-width="1.1" stroke-linecap="round"/></svg></div><span class="apt">Attendance push</span></div><div class="apd">April – June</div><ul class="sil"><li>Case management for every student with 11+ absences</li><li>Weekly classroom attendance celebrations</li><li>Family attendance compacts — signed commitments</li><li>Lift Zone A &amp; B protocols maintained</li></ul></div>
+<div class="apc"><div class="apih"><div class="apic" style="background:#E2F4EC"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="5.5" r="2.2" stroke="#0E6B4E" stroke-width="1.1"/><path d="M2.5 12c0-2.5 2-4.5 4.5-4.5s4.5 2 4.5 4.5" stroke="#0E6B4E" stroke-width="1.2" stroke-linecap="round"/></svg></div><span class="apt">Positive relationships</span></div><div class="apd">April – June</div><ul class="sil"><li>All staff greet every student by name at entry</li><li>Expand peer mediator program for spring</li><li>End-of-year celebrations and Grade 8 send-off</li><li>Student exit interviews before end of year</li></ul></div>
+<div class="apc"><div class="apih"><div class="apic" style="background:#E2F4EC"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 11V6.5L7 3l4 3.5V11" stroke="#0E6B4E" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 11V8.5h3V11" stroke="#0E6B4E" stroke-width="1.1" stroke-linecap="round"/></svg></div><span class="apt">Literacy sprint</span></div><div class="apd">April – June</div><ul class="sil"><li>Intensive K–1 phonological awareness groups</li><li>Gr 3–4 reading intervention: target lowest-band students</li><li>ML Gr 3–6 bridge-to-English literacy support</li><li>Continue evidence writing Gr 4–8</li></ul></div>
+<div class="apc"><div class="apih"><div class="apic" style="background:#EEF0FE"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="5.5" r="2.2" stroke="#3B3899" stroke-width="1.1"/><path d="M2.5 12c0-2.5 2-4.5 4.5-4.5s4.5 2 4.5 4.5" stroke="#3B3899" stroke-width="1.2" stroke-linecap="round"/></svg></div><span class="apt">Family close-out</span></div><div class="apd">May – June</div><ul class="sil"><li>Family climate survey completed — response rate at 9% (families); push for higher participation next cycle</li><li>Spring Community Day: celebrate year's wins</li><li>Year-end bilingual family newsletter</li><li>Summer resource fair before July</li></ul></div>
+<div class="apc"><div class="apih"><div class="apic" style="background:#FCEAE7"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 11.5l3.5-7 2.5 4.5 2-2.5 2 5" stroke="#A0280E" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="apt">Data close-out</span></div><div class="apd">May – June</div><ul class="sil"><li>SBAC analysis: compare to SBA and iReady trajectories</li><li>Final mClass/NWEA/iReady review: BOY to EOY movement</li><li>EOY attendance audit vs 20.9% goal</li><li>Document wins and lessons for 26–27</li></ul></div>
+</div>
+
+</div>
+
+<div id="s-mc" class="sec">
+
+<div class="sig si" style="margin-bottom:1.25rem"><div class="sig-ic">i</div><div>Structured using a <strong>DataWise noticing & wondering</strong> lens. Noticings are grounded in data. Wonderings are the questions that data raises. Leadership moves are the deliberate actions taken in response.</div></div>
+<div class="two-col" style="margin-bottom:1rem">
+<!-- Left: Noticing & Wondering -->
+<div>
+<div class="card" style="margin-bottom:.75rem">
+<div class="ct" style="color:#0C4A8C">👁 We notice...</div>
+<div class="cs">Data-grounded observations from this year</div>
+<div style="display:flex;flex-direction:column;gap:0">
+<div style="display:flex;gap:10px;padding:9px 0;border-bottom:0.5px solid var(--border)"><span style="width:8px;height:8px;border-radius:50%;background:#1D9E75;flex-shrink:0;margin-top:5px"></span><span style="font-size:12px;color:var(--text2);line-height:1.6">Math fact fluency grew significantly across <strong>all</strong> grade levels — Grade 3 alone jumped from 5% to 55% proficient or goal.</span></div>
+<div style="display:flex;gap:10px;padding:9px 0;border-bottom:0.5px solid var(--border)"><span style="width:8px;height:8px;border-radius:50%;background:#1D9E75;flex-shrink:0;margin-top:5px"></span><span style="font-size:12px;color:var(--text2);line-height:1.6">iReady: 72% of students making typical annual math growth — 3rd in the district. Students 3+ grades behind dropped from 34% to 20%.</span></div>
+<div style="display:flex;gap:10px;padding:9px 0;border-bottom:0.5px solid var(--border)"><span style="width:8px;height:8px;border-radius:50%;background:#1D9E75;flex-shrink:0;margin-top:5px"></span><span style="font-size:12px;color:var(--text2);line-height:1.6">Spanish literacy (Lectura): K–3 well-below dropped 52% → 35%. Kindergarten specifically: 65% → 25% well-below — a 40-point swing.</span></div>
+<div style="display:flex;gap:10px;padding:9px 0;border-bottom:0.5px solid var(--border)"><span style="width:8px;height:8px;border-radius:50%;background:#1D9E75;flex-shrink:0;margin-top:5px"></span><span style="font-size:12px;color:var(--text2);line-height:1.6">Students who "want to come to school every day" rose from 34% to 47%. Zero suspensions this year (down from 1).</span></div>
+<div style="display:flex;gap:10px;padding:9px 0;border-bottom:0.5px solid var(--border)"><span style="width:8px;height:8px;border-radius:50%;background:#A0280E;flex-shrink:0;margin-top:5px"></span><span style="font-size:12px;color:var(--text2);line-height:1.6">53–58% of Grades 3–4 students remain in the lowest NWEA reading band, despite above-average growth rates.</span></div>
+<div style="display:flex;gap:10px;padding:9px 0;border-bottom:0.5px solid var(--border)"><span style="width:8px;height:8px;border-radius:50%;background:#A0280E;flex-shrink:0;margin-top:5px"></span><span style="font-size:12px;color:var(--text2);line-height:1.6">ML students in Grades 3–6: 41–69% in the lowest reading band. Support structures weaken after Grade 3.</span></div>
+<div style="display:flex;gap:10px;padding:9px 0;border-bottom:0.5px solid var(--border)"><span style="width:8px;height:8px;border-radius:50%;background:#A0280E;flex-shrink:0;margin-top:5px"></span><span style="font-size:12px;color:var(--text2);line-height:1.6">Chronic absenteeism at 23.3% — above the 20.9% EOY goal. Need ~23 more students to exit chronic absence by June.</span></div>
+<div style="display:flex;gap:10px;padding:9px 0"><span style="width:8px;height:8px;border-radius:50%;background:#A0280E;flex-shrink:0;margin-top:5px"></span><span style="font-size:12px;color:var(--text2);line-height:1.6">Family climate survey response: only 9%. Class Dojo → Apptegy transition created friction that has not yet been resolved.</span></div>
+</div>
+</div>
+<div class="card">
+<div class="ct" style="color:#7A4E00">💭 We wonder...</div>
+<div class="cs">Questions this data raises for the team</div>
+<div style="display:flex;flex-direction:column;gap:0">
+<div style="display:flex;gap:10px;padding:9px 0;border-bottom:0.5px solid var(--border)"><span style="width:8px;height:8px;border-radius:50%;background:#7A4E00;flex-shrink:0;margin-top:5px"></span><span style="font-size:12px;color:var(--text2);line-height:1.6">What specific adult practices drove the fluency growth — and how do we document and replicate them across grades?</span></div>
+<div style="display:flex;gap:10px;padding:9px 0;border-bottom:0.5px solid var(--border)"><span style="width:8px;height:8px;border-radius:50%;background:#7A4E00;flex-shrink:0;margin-top:5px"></span><span style="font-size:12px;color:var(--text2);line-height:1.6">If Kindergarten Lectura can drop 40 points of "well-below" in one year, what would it take to replicate that in English reading?</span></div>
+<div style="display:flex;gap:10px;padding:9px 0;border-bottom:0.5px solid var(--border)"><span style="width:8px;height:8px;border-radius:50%;background:#7A4E00;flex-shrink:0;margin-top:5px"></span><span style="font-size:12px;color:var(--text2);line-height:1.6">What is happening for ML students between Grade 3 and Grade 4 that causes reading support to fall off?</span></div>
+<div style="display:flex;gap:10px;padding:9px 0;border-bottom:0.5px solid var(--border)"><span style="width:8px;height:8px;border-radius:50%;background:#7A4E00;flex-shrink:0;margin-top:5px"></span><span style="font-size:12px;color:var(--text2);line-height:1.6">Why are 12% of students accumulating 18+ absences — and what do those students have in common? What barriers exist that school cannot address alone?</span></div>
+<div style="display:flex;gap:10px;padding:9px 0"><span style="width:8px;height:8px;border-radius:50%;background:#7A4E00;flex-shrink:0;margin-top:5px"></span><span style="font-size:12px;color:var(--text2);line-height:1.6">How do we reach families who are not yet engaging digitally — especially given immigration concerns — without Apptegy being fully adopted?</span></div>
+</div>
+</div>
+</div>
+<!-- Right: Leadership moves + Impeding factors -->
+<div>
+<div class="card" style="margin-bottom:.75rem">
+<div class="ct" style="color:#0E6B4E">🎯 Leadership moves</div>
+<div class="cs">Deliberate actions taken in response to data</div>
+<div style="display:flex;flex-direction:column;gap:0">
+<div style="display:flex;gap:10px;padding:9px 0;border-bottom:0.5px solid var(--border)">
+<span style="width:20px;height:20px;border-radius:50%;background:#0C4A8C;color:#fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0">1</span>
+<span style="font-size:12px;color:var(--text2);line-height:1.6"><strong style="color:var(--text)">DataWise school-wide:</strong> Expanded from Grade 8 pilot to all grades. Literacy named as the shared focus area. Grade-band problems of practice established for K–1, 2–3, and 4–8.</span>
+</div>
+<div style="display:flex;gap:10px;padding:9px 0;border-bottom:0.5px solid var(--border)">
+<span style="width:20px;height:20px;border-radius:50%;background:#0C4A8C;color:#fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0">2</span>
+<span style="font-size:12px;color:var(--text2);line-height:1.6"><strong style="color:var(--text)">Student data cards:</strong> Every student received a personalized benchmark card after fall and winter assessments — reading level, RIT score, and growth goal. Students can articulate their own progress.</span>
+</div>
+<div style="display:flex;gap:10px;padding:9px 0;border-bottom:0.5px solid var(--border)">
+<span style="width:20px;height:20px;border-radius:50%;background:#0C4A8C;color:#fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0">3</span>
+<span style="font-size:12px;color:var(--text2);line-height:1.6"><strong style="color:var(--text)">Intervention targeting:</strong> All students scoring basic on fall fluency assessments received push-in intervention 2 days/week. Result: Gr 1 fact fluency 13% → 51% proficient or goal.</span>
+</div>
+<div style="display:flex;gap:10px;padding:9px 0;border-bottom:0.5px solid var(--border)">
+<span style="width:20px;height:20px;border-radius:50%;background:#0C4A8C;color:#fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0">4</span>
+<span style="font-size:12px;color:var(--text2);line-height:1.6"><strong style="color:var(--text)">Learning walk calendar:</strong> Formalized with written feedback. DOK posters, sentence starters, and talk moves visible in every classroom. Coaching cycles aligned to SOP.</span>
+</div>
+<div style="display:flex;gap:10px;padding:9px 0;border-bottom:0.5px solid var(--border)">
+<span style="width:20px;height:20px;border-radius:50%;background:#0C4A8C;color:#fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0">5</span>
+<span style="font-size:12px;color:var(--text2);line-height:1.6"><strong style="color:var(--text)">Attendance intervention tiers:</strong> Lift Zone A &amp; B protocols active. 18+ absence students on case management. Weekly check-ins for 15–17 absence students. Goal: 20.9% CA by June.</span>
+</div>
+<div style="display:flex;gap:10px;padding:9px 0;border-bottom:0.5px solid var(--border)">
+<span style="width:20px;height:20px;border-radius:50%;background:#0C4A8C;color:#fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0">6</span>
+<span style="font-size:12px;color:var(--text2);line-height:1.6"><strong style="color:var(--text)">Community expansion:</strong> Partners grew from 2 (2023) to 14+ (2026). Breakfast with Bigs, Vermont Leadership Trip, Career Day, alumni program — all running concurrently.</span>
+</div>
+<div style="display:flex;gap:10px;padding:9px 0">
+<span style="width:20px;height:20px;border-radius:50%;background:#1D9E75;color:#fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0">7</span>
+<div style="font-size:12px;color:var(--text2);line-height:1.6"><strong style="color:var(--text)">Seedlings Educators Collaborative — play-based &amp; place-based learning:</strong> JSM partnered with Seedlings to provide professional learning grounded in play-based and place-based pedagogy. We strongly believe these approaches build deeper engagement, authentic inquiry, and real-world connections for students. Our work with Seedlings was featured in a nationally shared video highlighting JSM's classroom practices. <a href="https://vimeo.com/1119508528" target="_blank" style="color:#0C4A8C;font-weight:600;text-decoration:none">▶ Watch the feature →</a></div>
+</div>
+</div>
+</div>
+<div class="card">
+<div class="ct" style="color:#A0280E">⚠ Impeding factors</div>
+<div class="cs">What is getting in the way of full implementation and progress</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="border-left:3px solid #A0280E;padding:8px 12px;background:#FDFAF9;border-radius:0 6px 6px 0">
+<div style="font-size:11px;font-weight:700;color:#791F1F;text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px">Capacity</div>
+<div style="font-size:12px;color:var(--text2);line-height:1.6">Title I tutoring budget limits our ability to act on targeting data — we know which students need it, but don't have the staffing to deliver it at scale.</div>
+</div>
+<div style="border-left:3px solid #A0280E;padding:8px 12px;background:#FDFAF9;border-radius:0 6px 6px 0">
+<div style="font-size:11px;font-weight:700;color:#791F1F;text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px">Staffing</div>
+<div style="font-size:12px;color:var(--text2);line-height:1.6">FMLA absences and inconsistent substitute coverage disrupt instructional continuity — particularly in grades with high ML or IEP concentrations.</div>
+</div>
+<div style="border-left:3px solid #A0280E;padding:8px 12px;background:#FDFAF9;border-radius:0 6px 6px 0">
+<div style="font-size:11px;font-weight:700;color:#791F1F;text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px">ML Equity</div>
+<div style="font-size:12px;color:var(--text2);line-height:1.6">JSM has added an additional TESOL teacher and paraeducator to better support our multilingual learners — a meaningful investment. However, ML literacy support structures still fade after Grade 3, where 41–69% of ML students in Grades 4–6 remain in the lowest NWEA reading band. A district-funded bridge-to-English model for upper grades is still needed.</div>
+</div>
+<div style="border-left:3px solid #A0280E;padding:8px 12px;background:#FDFAF9;border-radius:0 6px 6px 0">
+<div style="font-size:11px;font-weight:700;color:#791F1F;text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px">IEP Load &amp; Enrollment</div>
+<div style="font-size:12px;color:var(--text2);line-height:1.6">72 students with IEPs (14.4%) — and growing. Students are being enrolled at JSM without advance identification of support needs; many arrive mid-year with existing IEPs, expanding caseloads with no corresponding staffing increase. Grades 3–5 IEP students: 70–100% in the lowest NWEA reading band.</div>
+</div>
+<div style="border-left:3px solid #A0280E;padding:8px 12px;background:#FDFAF9;border-radius:0 6px 6px 0">
+<div style="font-size:11px;font-weight:700;color:#791F1F;text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px">Budget</div>
+<div style="font-size:12px;color:var(--text2);line-height:1.6">Proposed FY 26–27 budget of $4,295,123 is $174,821 above 25–26 actuals ($4,120,302), driven by personnel costs. Non-personnel — which covers intervention materials and tutoring — is only $181,985 of the total. Any reduction or flat allocation will directly cut intervention capacity.</div>
+</div>
+<div style="border-left:3px solid #D96A12;padding:8px 12px;background:#FDFAF9;border-radius:0 6px 6px 0">
+<div style="font-size:11px;font-weight:700;color:#854F0B;text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px">Families</div>
+<div style="font-size:12px;color:var(--text2);line-height:1.6">Immigration-related fears are keeping families away from evening and afterschool events. Family climate survey response was 9% — below any meaningful threshold for data-informed decisions.</div>
+</div>
+<div style="border-left:3px solid #D96A12;padding:8px 12px;background:#FDFAF9;border-radius:0 6px 6px 0">
+<div style="font-size:11px;font-weight:700;color:#854F0B;text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px">Technology</div>
+<div style="font-size:12px;color:var(--text2);line-height:1.6">Apptegy onboarding is still incomplete. Many families have not fully transitioned from Class Dojo — communication gaps are a direct contributor to low family engagement metrics.</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+<div id="s-sup" class="sec">
+
+<div class="card" style="margin-bottom:1rem">
+  <div class="ct">What district supports have been helpful?</div>
+  <div class="cs">Backed by evidence from this school year</div>
+  <div style="display:flex;flex-direction:column;gap:1.25rem">
+
+    <div style="display:flex;gap:12px;align-items:flex-start">
+      <div style="width:34px;height:34px;border-radius:8px;background:#E2F4EC;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px">&#128200;</div>
+      <div><div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:4px">DataWise Training Institute</div>
+      <div style="font-size:12px;color:var(--text2);line-height:1.7">Provided the framework for our school-wide data inquiry cycle. Expanded from a Grade 8 pilot in 2024-25 to full school implementation this year. Teachers are using data weekly to drive small-group placement decisions — directly linked to iReady growth of 72% toward typical growth, 3rd in the district.</div></div>
+    </div>
+
+    <div style="border-top:0.5px solid var(--border);padding-top:1.25rem;display:flex;gap:12px;align-items:flex-start">
+      <div style="width:34px;height:34px;border-radius:8px;background:#E5EEFA;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px">&#127919;</div>
+      <div><div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:4px">Superintendent's District-Wide Vision (SOP 2024-2029)</div>
+      <div style="font-size:12px;color:var(--text2);line-height:1.7">The four-priority framework gave JSM a clear organizing structure that aligns directly to district strategy. Our School Improvement Plan maps to each priority without duplication. The September review format was valued — the collegial, intimate tone was appreciated by the whole team.</div></div>
+    </div>
+
+    <div style="border-top:0.5px solid var(--border);padding-top:1.25rem;display:flex;gap:12px;align-items:flex-start">
+      <div style="width:34px;height:34px;border-radius:8px;background:#FDF0D5;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px">&#11088;</div>
+      <div><div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:4px">2026 Magnet School of Excellence</div>
+      <div style="font-size:12px;color:var(--text2);line-height:1.7">The national recognition from Magnet Schools of America elevated staff and student morale and validated our STEM magnet model. The percentage of students who say they want to come to school every day rose from 34% to 47% — a meaningful signal that culture and belonging are improving.</div></div>
+    </div>
+
+    <div style="border-top:0.5px solid var(--border);padding-top:1.25rem">
+      <div style="background:#F0FAF5;border-radius:12px;padding:1.1rem 1.25rem">
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:.75rem">
+          <div style="width:34px;height:34px;border-radius:8px;background:#1D9E75;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px">&#127807;</div>
+          <div>
+            <div style="font-size:13px;font-weight:700;color:#085041;margin-bottom:2px">Seedlings Educators Collaborative</div>
+            <div style="font-size:11px;color:#1D9E75;font-weight:500">Play-based &amp; place-based professional learning</div>
+          </div>
+        </div>
+        <div style="font-size:12px;color:#085041;line-height:1.8;margin-bottom:.875rem">Our partnership with Seedlings Educators Collaborative has been one of the most meaningful professional learning investments we have made. Seedlings provides JSM staff with development grounded in <strong>play-based and place-based pedagogy</strong> — two approaches that sit at the heart of how we believe children learn best. The work connects educators across public, independent, and parochial schools through inquiry-based, hands-on experiences — exactly the model our teachers bring into their classrooms every day. The results speak for themselves: Science SBA proficiency grew from 12% to 40% over four years, and 47% of students now want to come to school daily. Our approach was recognized nationally — JSM classroom practices were featured in a video shared across the country.</div>
+        <a href="https://vimeo.com/1119508528" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:8px 18px;background:#085041;color:#fff;border-radius:8px;font-size:12px;font-weight:600;text-decoration:none">&#9654;&nbsp; Watch the nationally featured JSM video</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="card">
+  <div class="ct">What might we still need?</div>
+  <div class="cs">Specific asks from central office — each backed by data</div>
+  <div style="display:flex;flex-direction:column;gap:1rem">
+
+    <div style="display:flex;gap:12px;align-items:flex-start">
+      <span style="font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;background:#FCEAE7;color:#791F1F;white-space:nowrap;flex-shrink:0;margin-top:2px">Urgent</span>
+      <div><div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px">Bridge-to-English literacy support for Grades 4-6</div>
+      <div style="font-size:12px;color:var(--text2);line-height:1.7">41-69% of our multilingual learners in Grades 4-6 are in the lowest NWEA reading band. K-3 has Lectura — but no equivalent structure exists for upper grades. We are asking for a district-funded model or curriculum for ML literacy in Grades 4-6.</div></div>
+    </div>
+
+    <div style="border-top:0.5px solid var(--border);padding-top:1rem;display:flex;gap:12px;align-items:flex-start">
+      <span style="font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;background:#FCEAE7;color:#791F1F;white-space:nowrap;flex-shrink:0;margin-top:2px">Urgent</span>
+      <div><div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px">Co-teaching resources for students with IEPs in Grades 3-5</div>
+      <div style="font-size:12px;color:var(--text2);line-height:1.7">70-100% of IEP students in Grades 3-5 are in the lowest NWEA reading band. With 72 students with IEPs (14.4% of enrollment), this is our largest single subgroup demand. We are asking for additional co-teaching FTE or targeted SPED reading specialists.</div></div>
+    </div>
+
+    <div style="border-top:0.5px solid var(--border);padding-top:1rem;display:flex;gap:12px;align-items:flex-start">
+      <span style="font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;background:#E5EEFA;color:#0C4A8C;white-space:nowrap;flex-shrink:0;margin-top:2px">High priority</span>
+      <div><div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px">Title I tutoring capacity</div>
+      <div style="font-size:12px;color:var(--text2);line-height:1.7">We have granular targeting data from iReady and NWEA to identify exactly which students need tutoring — but budget constraints prevent us from staffing it at the scale students need. Asking for increased Title I allocation or district-funded tutoring support through the end of the year.</div></div>
+    </div>
+
+    <div style="border-top:0.5px solid var(--border);padding-top:1rem;display:flex;gap:12px;align-items:flex-start">
+      <span style="font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;background:#E2F4EC;color:#085041;white-space:nowrap;flex-shrink:0;margin-top:2px">&#10003; Completed</span>
+      <div><div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px">DataWise fidelity visit from a district supervisor</div>
+      <div style="font-size:12px;color:var(--text2);line-height:1.7">A district supervisor completed a DataWise fidelity visit this year — a meaningful support for our first year of school-wide implementation. The visit helped calibrate our practice and strengthens our foundation heading into year two.</div></div>
+    </div>
+
+    <div style="border-top:0.5px solid var(--border);padding-top:1rem;display:flex;gap:12px;align-items:flex-start">
+      <span style="font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;background:#FEF3DE;color:#7A4E00;white-space:nowrap;flex-shrink:0;margin-top:2px">Ongoing</span>
+      <div><div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px">Structured cross-school collaboration time</div>
+      <div style="font-size:12px;color:var(--text2);line-height:1.7">Time with peer principals — even one structured cross-school learning walk per semester — would meaningfully accelerate our instructional growth. This was requested in September and is still needed.</div></div>
+    </div>
+
+    <div style="border-top:0.5px solid var(--border);padding-top:1rem;display:flex;gap:12px;align-items:flex-start">
+      <span style="font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;background:#FEF3DE;color:#7A4E00;white-space:nowrap;flex-shrink:0;margin-top:2px">Ongoing</span>
+      <div><div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px">District guidance on Apptegy family onboarding</div>
+      <div style="font-size:12px;color:var(--text2);line-height:1.7">Our family climate survey response was only 9% — a direct result of the Class Dojo to Apptegy transition. We are asking for district-led family onboarding sessions in English and Spanish to close this communication gap before the next survey cycle.</div></div>
+    </div>
+
+  </div>
+</div>
+
+</div>
+
+</div>
+<script>
+
+const R1='#C0392B',R2='#D96A12',R4='#5BA830',R5='#2078C8';
+function makeBarRows(containerId, rows){
+  const c=document.getElementById(containerId);if(!c)return;
+  rows.forEach(r=>{
+    const d=document.createElement('div');d.className='br';
+    let pairHtml='';
+    r.periods.forEach(p=>{
+      pairHtml+=`<div class="br-row"><span class="br-lbl">${p.label}</span><div class="btrack">`;
+      p.segs.forEach(s=>{if(s.v>0)pairHtml+=`<div class="bs" style="width:${s.v}%;background:${s.c}"><span>${s.v}%</span></div>`;});
+      pairHtml+='</div></div>';
+    });
+    d.innerHTML=`<div class="br-hdr"><span class="br-name">${r.name}</span><span class="br-n">${r.n||''}</span></div><div class="br-pair">${pairHtml}</div>`;
+    c.appendChild(d);
+    if(rows.indexOf(r)<rows.length-1){const dv=document.createElement('div');dv.className='bdiv';c.appendChild(dv);}
+  });
+}
+makeBarRows('mclass-bars',[
+  {name:'All K–3',n:'~184 students',periods:[{label:'Start',segs:[{v:70,c:R1},{v:11,c:R2},{v:10,c:R4},{v:9,c:R5}]},{label:'Midyear',segs:[{v:64,c:R1},{v:15,c:R2},{v:12,c:R4},{v:9,c:R5}]}]},
+  {name:'Kindergarten',n:'44–45 students',periods:[{label:'Start',segs:[{v:80,c:R1},{v:13,c:R4},{v:7,c:R5}]},{label:'Midyear',segs:[{v:70,c:R1},{v:20,c:R4},{v:5,c:R5}]}]},
+  {name:'Grade 1',n:'47 students',periods:[{label:'Start',segs:[{v:85,c:R1},{v:7,c:R4},{v:8,c:R5}]},{label:'Midyear',segs:[{v:79,c:R1},{v:13,c:R4},{v:8,c:R5}]}]},
+  {name:'Grade 2',n:'46 students',periods:[{label:'Start',segs:[{v:67,c:R1},{v:11,c:R4},{v:11,c:R5},{v:11,c:'#1a5c8a'}]},{label:'Midyear',segs:[{v:60,c:R1},{v:9,c:R2},{v:22,c:R4},{v:9,c:R5}]}]},
+  {name:'Grade 3',n:'45–47 students',periods:[{label:'Start',segs:[{v:49,c:R1},{v:13,c:R2},{v:18,c:R4},{v:20,c:R5}]},{label:'Midyear',segs:[{v:47,c:R1},{v:17,c:R2},{v:17,c:R4},{v:19,c:R5}]}]},
+]);
+makeBarRows('lectura-bars',[
+  {name:'All K–3 Lectura',n:'~90 students',periods:[{label:'Start',segs:[{v:52,c:R1},{v:15,c:R2},{v:25,c:R4},{v:8,c:R5}]},{label:'Midyear',segs:[{v:35,c:R1},{v:27,c:R2},{v:29,c:R4},{v:9,c:R5}]}]},
+  {name:'Kindergarten Lectura ⭐',n:'20 students',periods:[{label:'Start',segs:[{v:65,c:R1},{v:15,c:R4},{v:15,c:R5},{v:5,c:'#1a5c8a'}]},{label:'Midyear',segs:[{v:25,c:R1},{v:40,c:R2},{v:30,c:R4},{v:5,c:R5}]}]},
+  {name:'Grade 1 Lectura',n:'23–24 students',periods:[{label:'Start',segs:[{v:62,c:R1},{v:25,c:R4},{v:13,c:R5}]},{label:'Midyear',segs:[{v:48,c:R1},{v:39,c:R4},{v:13,c:R5}]}]},
+  {name:'Grade 3 Lectura',n:'25–26 students',periods:[{label:'Start',segs:[{v:31,c:R1},{v:12,c:R2},{v:42,c:R4},{v:15,c:R5}]},{label:'Midyear',segs:[{v:28,c:R1},{v:8,c:R2},{v:44,c:R4},{v:20,c:R5}]}]},
+]);
+const nweaData=[
+  {g:'Grade 3',n:'47',med:'16th',medBg:'#FCEAE7',medC:'#791F1F',segs:[{v:53,c:R1},{v:13,c:R2},{v:8,c:'#D4B800'},{v:15,c:R4},{v:11,c:R5}]},
+  {g:'Grade 4',n:'52',med:'12th',medBg:'#FCEAE7',medC:'#791F1F',segs:[{v:58,c:R1},{v:23,c:R2},{v:17,c:R4}]},
+  {g:'Grade 5',n:'46',med:'38th',medBg:'#FEF3DE',medC:'#7A4E00',segs:[{v:35,c:R1},{v:24,c:R2},{v:19,c:'#D4B800'},{v:22,c:R4}]},
+  {g:'Grade 6',n:'49',med:'28th',medBg:'#FEF3DE',medC:'#7A4E00',segs:[{v:39,c:R1},{v:31,c:R2},{v:24,c:R4},{v:6,c:R5}]},
+  {g:'Grade 7',n:'54',med:'34th',medBg:'#FEF3DE',medC:'#7A4E00',segs:[{v:21,c:R1},{v:37,c:R2},{v:36,c:R4},{v:6,c:R5}]},
+  {g:'Grade 8',n:'54',med:'55th ⭐',medBg:'#E2F4EC',medC:'#0E6B4E',segs:[{v:9,c:R1},{v:19,c:R2},{v:32,c:'#D4B800'},{v:31,c:R4},{v:9,c:R5}]},
+];
+const nb=document.getElementById('nwea-bars');
+nweaData.forEach(r=>{
+  const d=document.createElement('div');d.className='pr';
+  d.innerHTML=`<div class="pr-hdr"><span class="pr-grade">${r.g} <small style="color:var(--text3);font-size:10px">${r.n} students</small></span><span class="pr-med" style="background:${r.medBg};color:${r.medC}">Median: ${r.med} percentile</span></div><div class="pbar">${r.segs.map(s=>s.v>0?`<div class="ps" style="width:${s.v}%;background:${s.c}"><span>${s.v}%</span></div>`:'').join('')}</div>`;
+  nb.appendChild(d);
+});
+
+// ML and IEP tables
+const mlD=[{g:'Grade 3',med:'14th',lo:'63%'},{g:'Grade 4',med:'9th',lo:'69%'},{g:'Grade 5',med:'25th',lo:'41%'},{g:'Grade 6',med:'17th',lo:'53%'},{g:'Grade 7',med:'32nd',lo:'31%'},{g:'Grade 8',med:'28th',lo:'37%'}];
+const iepD=[{g:'Grade 3',med:'3rd',lo:'100%'},{g:'Grade 4',med:'8th',lo:'70%'},{g:'Grade 5',med:'10th',lo:'71%'},{g:'Grade 6',med:'33rd',lo:'38%'},{g:'Grade 7',med:'34th',lo:'22%'},{g:'Grade 8',med:'39th',lo:'43%'}];
+function fillSubTable(id,data){const t=document.getElementById(id);data.forEach(r=>{const urgent=parseInt(r.lo)>=60;const tr=document.createElement('tr');tr.innerHTML=`<td>${r.g}</td><td><span class="chip ${urgent?'cd':'cw'}">${r.med} pct</span></td><td><span class="chip ${urgent?'cd':'cw'}">${r.lo}</span></td>`;t.appendChild(tr)});}
+fillSubTable('ml-table',mlD);fillSubTable('iep-table',iepD);
+
+const gradeD=[{g:'K',dist:75,jsm:100},{g:'1',dist:62,jsm:55},{g:'2',dist:52,jsm:68},{g:'3',dist:50,jsm:60},{g:'4',dist:54,jsm:65},{g:'5',dist:60,jsm:55},{g:'6',dist:57,jsm:107},{g:'7',dist:54,jsm:85},{g:'8',dist:78,jsm:91}];
+const gct=document.getElementById('grade-compare');
+gradeD.forEach(r=>{const diff=r.jsm-r.dist;const above=diff>=0;const tr=document.createElement('tr');tr.innerHTML=`<td style="font-weight:600">Grade ${r.g}</td><td>${r.dist}%</td><td style="font-weight:600;color:${above?'#085041':'#A32D2D'}">${r.jsm}%</td><td><span class="chip ${above?'cu':'cd'}">${above?'+':''}${diff} pts</span></td><td>${r.jsm>=100?'<span class="chip cu">Above pace ⭐</span>':above?'<span class="chip cu">Above district</span>':'<span class="chip cd">Below district</span>'}</td>`;gct.appendChild(tr);});
+
+const ms=document.getElementById('math-shift');
+[{lbl:'Sept',segs:[{v:34,c:'#A32D2D'},{v:28,c:'#E24B4A'},{v:35,c:'#BA7517'},{v:2,c:'#5BA830'},{v:1,c:'#1D9E75'}]},{lbl:'Jan',segs:[{v:20,c:'#A32D2D'},{v:21,c:'#E24B4A'},{v:48,c:'#BA7517'},{v:9,c:'#5BA830'},{v:2,c:'#1D9E75'}]}].forEach(p=>{const d=document.createElement('div');d.style.cssText='display:flex;align-items:center;gap:6px;margin-bottom:4px';d.innerHTML=`<span style="font-size:10px;color:var(--text2);width:34px;flex-shrink:0;text-align:right">${p.lbl}</span><div class="btrack">${p.segs.map(s=>s.v>0?`<div class="bs" style="width:${s.v}%;background:${s.c}"><span>${s.v}%</span></div>`:'').join('')}</div>`;ms.appendChild(d);});
+
+const classD=[
+  {g:'K',cls:'K – Palten',e3:0,e2:0,e1:90,eon:10,eab:0,growth:105,dist:75},
+  {g:'K',cls:'K – Acquarulo',e3:0,e2:0,e1:59,eon:29,eab:8,growth:94,dist:75},
+  {g:'1',cls:'1 – Davila',e3:0,e2:17,e1:79,eon:0,eab:0,growth:59,dist:62},
+  {g:'1',cls:'1 – Gwiazda',e3:0,e2:17,e1:79,eon:0,eab:4,growth:52,dist:62},
+  {g:'2',cls:'2 – Reyes',e3:0,e2:38,e1:62,eon:0,eab:0,growth:66,dist:52},
+  {g:'2',cls:'2 – Gerschefski',e3:0,e2:25,e1:71,eon:0,eab:0,growth:69,dist:52},
+  {g:'3',cls:'3 – Woods',e3:12,e2:24,e1:60,eon:0,eab:4,growth:73,dist:50},
+  {g:'3',cls:'3 – Thorpe',e3:0,e2:50,e1:32,eon:9,eab:0,growth:59,dist:50},
+  {g:'4',cls:'4 – Pisani',e3:29,e2:2,e1:37,eon:2,eab:2,growth:65,dist:54},
+  {g:'5',cls:'5 – Gier',e3:24,e2:20,e1:36,eon:20,eab:0,growth:55,dist:60},
+  {g:'6',cls:'6 – Hernandez',e3:39,e2:24,e1:30,eon:4,eab:2,growth:107,dist:57},
+  {g:'7',cls:'7 – Alvarez',e3:47,e2:15,e1:26,eon:11,eab:0,growth:85,dist:54},
+  {g:'8',cls:'8 – Alvarez',e3:23,e2:17,e1:40,eon:17,eab:2,growth:91,dist:78},
+];
+const ctb=document.getElementById('class-detail');let lg='';
+classD.forEach(r=>{
+  if(r.g!==lg){const s=document.createElement('tr');s.className='grade-sec';s.innerHTML=`<td colspan="9">Grade ${r.g}</td>`;ctb.appendChild(s);lg=r.g;}
+  const diff=r.growth-r.dist;const above=diff>=0;
+  const gc=r.growth>=100?'#085041':above?'#0F6E56':'#A32D2D';
+  const tr=document.createElement('tr');
+  tr.innerHTML=`<td>${r.cls}</td><td style="color:${r.e3>30?'#A32D2D':'inherit'}">${r.e3}%</td><td>${r.e2}%</td><td>${r.e1}%</td><td style="color:${r.eon>0?'#0F6E56':'var(--text3)'}">${r.eon}%</td><td style="color:${r.eab>0?'#085041':'var(--text3)'}">${r.eab}%</td><td style="font-weight:600;color:${gc}">${r.growth}%</td><td style="color:var(--text2)">${r.dist}%</td><td><span class="chip ${above?'cu':'cd'}">${above?'+':''}${diff}pts</span></td>`;
+  ctb.appendChild(tr);
+});
+const bs=document.getElementById('bright-spots');
+classD.filter(r=>r.growth>=80).forEach(r=>{bs.innerHTML+=`<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:0.5px solid var(--border)"><span style="font-size:12px">${r.cls}</span><div style="display:flex;align-items:center;gap:6px"><span style="font-size:11px;color:var(--text2)">vs dist ${r.dist}%</span><span class="chip cu">${r.growth}%</span></div></div>`;});
+const wl=document.getElementById('watch-list');
+classD.filter(r=>r.growth<r.dist).forEach(r=>{wl.innerHTML+=`<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:0.5px solid var(--border)"><span style="font-size:12px">${r.cls}</span><div style="display:flex;align-items:center;gap:6px"><span style="font-size:11px;color:var(--text2)">dist: ${r.dist}%</span><span class="chip cd">${r.growth}%</span></div></div>`;});
+
+
+
+
+
+
+</script>
+</body>
+</html>
